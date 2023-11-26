@@ -12,8 +12,13 @@ library(countrycode)
 library(dplyr)
 library(sf)
 
+books <- read_csv("data/harry_potter_books.csv")
 
+books_all_words <- books |>
+  unnest_tokens(output = word, input = text)
 
+keywords_proportion <- books_all_words |>
+  mutate(proportion = row_number() / nrow(books_all_words))
 
 ```
 
