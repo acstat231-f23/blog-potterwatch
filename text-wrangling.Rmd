@@ -23,5 +23,36 @@ keywords_proportion <- books_all_words |>
   mutate(proportion = row_number() / nrow(books_all_words)) |>
   filter(word %in% c("harry", "potter", "tom", "riddle", "voldemort"))
 
+#SENTIMENT LEXICON
+sentiment_data <- get_sentiments("afinn")
+
+#MOVIES
+movie1 <- read_csv("data/hp1.csv")
+movie2 <- read_csv("data/hp2.csv")
+movie3 <- read_csv("data/hp3.csv")
+movie4 <- read_csv("data/hp4.csv")
+movie5 <- read_csv("data/hp5.csv")
+movie6 <- read_csv("data/hp6.csv")
+movie7 <- read_csv("data/hp7.csv")
+movie8 <- read_csv("data/hp8.csv")
+
+movies_list <- list(movie1, movie2, movie3, movie4, movie5, movie6, movie7, movie8)
+
+movies <- movies_list |>
+  reduce(full_join)
+
+movies_all_words <- movies |>
+  unnest_tokens(output = word, input = dialog) |>
+  mutate(word = tolower(word)) |>
+  select(-character)
+
+rated_words <- movies_all_words |> 
+  inner_join(sentiment_data) |>
+  group_by(movie, chapter) |>
+  mutate(average_sentiment = mean(value)) |>
+  select(-word, -value) |>
+  distinct() |>
+  group_by(movie) |>
+  mutate(chapt_num = row_number())
 ```
 
