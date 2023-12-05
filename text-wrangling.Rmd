@@ -17,23 +17,32 @@ library(tidytext)
 #CHARACTER MENTIONS
 
 books <- read_csv("data/harry_potter_books.csv")
-characters <- c("Regulus", "Sirius", "Lavender", "Cho", "Crabbe", "Crouch", 
-                "Fleur", "Cedric", "Aberforth", "Dumbledore", "Dudley", "Petunia",
-                "Vernon", "Filch", "Seamus", "Flamel", "Fudge", "Goyle", "Hermione", 
-                "Hagrid", "Karkaroff", "Krum", "Bellatrix", "Alice", "Frank", 
-                "Neville", "Luna", "Xenophilius", "Lupin", "Draco", "Lucius", 
-                "Narcissa", "Maxime", "McGonagall", "Mad-Eye", "Peter", "Harry", 
-                "James", "Lily", "Quirrell", "Tom", "Voldemort", "Rita", "Snape", 
-                "Tonks", "Umbridge", "Arthur", "Bill", "Charlie", "Fred", "George", 
-                "Ginny", "Molly", "Percy", "Ron", "Dobby", "Fluffy", "Hedwig", 
-                "Myrtle", "Aragog", "Grawp")
+characters <- c("regulus", "sirius", "lavender", "cho", "crabbe", "crouch", 
+                "fleur", "cedric", "aberforth", "dumbledore", "dudley", "petunia",
+                "vernon", "filch", "seamus", "pomfrey", "fudge", "goyle", "hermione", 
+                "hagrid", "karkaroff", "krum", "bellatrix", "alice", "frank", 
+                "neville", "luna", "xenophilius", "lupin", "draco", "lucius", 
+                "narcissa", "maxime", "mcgonagall", "moody", "peter", "harry", 
+                "james", "lily", "quirrell", "tom", "voldemort", "rita", "snape", 
+                "tonks", "umbridge", "arthur", "bill", "charlie", "fred", "george", 
+                "ginny", "molly", "percy", "ron", "dobby", "hedwig", "grawp",
+                "myrtle", "aragog", "ollivander", "lockhart", "kreacher", "stan",
+                "bathilda", "dean", "parvarti", "flitwick", "kingsley", "sprout")
 
 books_all_words <- books |>
   unnest_tokens(output = word, input = text)
 
-keywords_proportion <- books_all_words |>
+character_name_locations <- books_all_words |>
   mutate(proportion = row_number() / nrow(books_all_words)) |>
   filter(word %in% characters)
+
+names_by_chapter <- character_name_locations |>
+  select(-proportion) |>
+  group_by(book, chapter) |>
+  count(word) |>
+  pivot_wider(names_from = word, values_from = n)
+
+names_by_chapter[is.na(names_by_chapter)] <- 0
 
 #SENTIMENT LEXICON
 sentiment_data <- get_sentiments("afinn")
