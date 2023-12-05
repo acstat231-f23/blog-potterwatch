@@ -54,5 +54,30 @@ rated_words <- movies_all_words |>
   distinct() |>
   group_by(movie) |>
   mutate(chapt_num = row_number())
+
+total_movie_average <- movies_all_words |> 
+  inner_join(sentiment_data) |>
+  group_by(movie) |>
+  mutate(average_sentiment = mean(value)) |>
+  select(-chapter, -word, -value) |>
+  distinct() |>
+  ungroup() |>
+  mutate(movie_num = row_number())
+
+ggplot(total_movie_average, aes(x = movie_num, y = average_sentiment, color = movie)) +
+  geom_bar(stat="identity") +
+  scale_color_discrete(
+    name = "Movies",
+    labels = c(
+      "Harry Potter and the Philosopher's Stone",
+      "Harry Potter and the Chambers of Secrets",
+      "Harry Potter and the Prisoner of Azkaban",
+      "Harry Potter and the Goblet of Fire",
+      "Harry Potter and the Order of the Phoenix",
+      "Harry Potter and the Half-Blood Prince",
+      "Harry Potter and the Deathly Hallows Part 1",
+      "Harry Potter and the Deathly Hallows Part 2"
+    )
+  )
 ```
 
