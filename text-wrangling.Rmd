@@ -14,14 +14,26 @@ library(sf)
 library(wordcloud)
 library(tidytext)
 
+#CHARACTER MENTIONS
+
 books <- read_csv("data/harry_potter_books.csv")
+characters <- c("Regulus", "Sirius", "Lavender", "Cho", "Crabbe", "Crouch", 
+                "Fleur", "Cedric", "Aberforth", "Dumbledore", "Dudley", "Petunia",
+                "Vernon", "Filch", "Seamus", "Flamel", "Fudge", "Goyle", "Hermione", 
+                "Hagrid", "Karkaroff", "Krum", "Bellatrix", "Alice", "Frank", 
+                "Neville", "Luna", "Xenophilius", "Lupin", "Draco", "Lucius", 
+                "Narcissa", "Maxime", "McGonagall", "Mad-Eye", "Peter", "Harry", 
+                "James", "Lily", "Quirrell", "Tom", "Voldemort", "Rita", "Snape", 
+                "Tonks", "Umbridge", "Arthur", "Bill", "Charlie", "Fred", "George", 
+                "Ginny", "Molly", "Percy", "Ron", "Dobby", "Fluffy", "Hedwig", 
+                "Myrtle", "Aragog", "Grawp")
 
 books_all_words <- books |>
   unnest_tokens(output = word, input = text)
 
 keywords_proportion <- books_all_words |>
   mutate(proportion = row_number() / nrow(books_all_words)) |>
-  filter(word %in% c("harry", "potter", "tom", "riddle", "voldemort"))
+  filter(word %in% characters)
 
 #SENTIMENT LEXICON
 sentiment_data <- get_sentiments("afinn")
