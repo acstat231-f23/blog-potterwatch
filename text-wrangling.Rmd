@@ -85,7 +85,7 @@ total_movie_average <- movies_all_words |>
   ungroup() |>
   mutate(movie_num = row_number())
 
-ggplot(total_movie_average, aes(x = movie_num, y = average_sentiment, color = movie)) +
+g <- ggplot(total_movie_average, aes(x = movie_num, y = average_sentiment, color = movie)) +
   geom_bar(stat="identity") +
   scale_color_discrete(
     name = "Movies",
