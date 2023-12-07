@@ -102,16 +102,16 @@ The [**DT** package](https://rstudio.github.io/DT/) is great for making dynamic 
 Note: you should load any packages you use in the `setup` code chunk as usual. The `library()` functions are shown below just for demonstration.
 
 ```{r}
-#| label: dt-example
-#| message: false
-#| echo: true
-
-library(DT)
-mtcars |>
-  select(mpg, cyl, hp) |>
-  datatable(colnames = c("MPG", "Number of cylinders", "Horsepower"),
-            filter = 'top',
-            options = list(pageLength = 10, autoWidth = TRUE))
+##| label: dt-example
+# #| message: false
+# #| echo: true
+# 
+# library(DT)
+# mtcars |>
+#   select(mpg, cyl, hp) |>
+#   datatable(colnames = c("MPG", "Number of cylinders", "Horsepower"),
+#             filter = 'top',
+#             options = list(pageLength = 10, autoWidth = TRUE))
 ```
 
 ### **kableExtra** package
