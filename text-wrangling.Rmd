@@ -13,6 +13,10 @@ library(dplyr)
 library(sf)
 library(wordcloud)
 library(tidytext)
+library(gganimate)
+library(gapminder)
+
+gap <- gapminder
 
 #CHARACTER MENTIONS
 
@@ -38,11 +42,83 @@ character_name_locations <- books_all_words |>
 
 names_by_chapter <- character_name_locations |>
   select(-proportion) |>
-  group_by(book, chapter) |>
+  group_by(chapter, book) |>
   count(word) |>
-  pivot_wider(names_from = word, values_from = n)
+  pivot_wider(names_from = word, values_from = n) |>
+  mutate(book_num = as.numeric(gsub(".*?([0-9]+).*", "\\1", book)), 
+         chapter_num = as.numeric(gsub(".*?([0-9]+).*", "\\1", chapter))) |>
+  arrange(book, chapter)
+
+for (i in 1:7){
+  name <- paste0("book", i)
+  assign(name, transpose(names_by_chapter |> filter(book_num == i)))
+}
+
+book1 <- do.call(rbind, book1)
+book1 <- as.data.frame(book1) |>
+  mutate(chapter_num = as.numeric(chapter_num)) |>
+  arrange(chapter_num)
+
+book2 <- do.call(rbind, book2)
+book2 <- as.data.frame(book2) |>
+  mutate(chapter_num = as.numeric(chapter_num)) |>
+  arrange(chapter_num)
+
+book3 <- do.call(rbind, book3)
+book3 <- as.data.frame(book3) |>
+  mutate(chapter_num = as.numeric(chapter_num)) |>
+  arrange(chapter_num)
+
+book4 <- do.call(rbind, book4)
+book4 <- as.data.frame(book4) |>
+  mutate(chapter_num = as.numeric(chapter_num)) |>
+  arrange(chapter_num)
+
+book5 <- do.call(rbind, book5)
+book5 <- as.data.frame(book5) |>
+  mutate(chapter_num = as.numeric(chapter_num)) |>
+  arrange(chapter_num)
+
+book6 <- do.call(rbind, book6)
+book6 <- as.data.frame(book6) |>
+  mutate(chapter_num = as.numeric(chapter_num)) |>
+  arrange(chapter_num)
+
+book7 <- do.call(rbind, book7)
+book7 <- as.data.frame(book7) |>
+  mutate(chapter_num = as.numeric(chapter_num)) |>
+  arrange(chapter_num)
+
+names_by_chapter <- bind_rows(book1, book2, book3, book4, book5, book6, book7) |>
+  mutate(order = row_number())
 
 names_by_chapter[is.na(names_by_chapter)] <- 0
+
+names_for_plotting <- names_by_chapter |>
+  select(-chapter, -book, -chapter_num, -book_num) |>
+  pivot_longer(!order, names_to = "character", values_to = "count") |>
+  mutate(count = as.numeric(count))
+
+```
+
+```{r setup, include=FALSE}
+#| width = 300
+
+p <- ggplot(names_for_plotting, aes(x = character, y = count, fill = character)) +
+  geom_bar(stat = "identity") +
+  theme_bw() +
+  guides(fill = F) +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5, size = rel(0.8)))
+
+# p + transition_time(order)
+# 
+# animate(p, ffmpeg_renderer())
+
+p
+
+```
+
+```{r setup, include=FALSE}
 
 #SENTIMENT LEXICON
 sentiment_data <- get_sentiments("afinn")
@@ -100,5 +176,7 @@ g <- ggplot(total_movie_average, aes(x = movie_num, y = average_sentiment, color
       "Harry Potter and the Deathly Hallows Part 2"
     )
   )
+
+g
 ```
 
