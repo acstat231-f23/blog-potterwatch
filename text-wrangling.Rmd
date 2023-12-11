@@ -109,12 +109,16 @@ p <- ggplot(names_for_plotting, aes(x = character, y = count, fill = character))
   geom_bar(stat = "identity") +
   theme_bw() +
   guides(fill = F) +
-  theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5, size = rel(0.8))) + 
-  facet_wrap(~ order)
+  theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5, size = rel(0.8)))
 
-p + transition_time(order)
-
-animate(p, ffmpeg_renderer())
+p + transition_states(
+    order,
+    transition_length = 2,
+    state_length = 1
+  ) +
+  enter_fade() + 
+  exit_shrink() +
+  ease_aes('sine-in-out')
 
 p
 
