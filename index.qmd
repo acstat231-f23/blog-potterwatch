@@ -141,7 +141,7 @@ Images and gifs can be displayed using code chunks:
 #| out.width: 80%
 #| fig.align: center
 
-knitr::include_graphics("img/Kenesha-Sneed_safe-space.jpeg")
+knitr::include_graphics("characteranimation.gif")
 ```
 
 
