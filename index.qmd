@@ -1,10 +1,10 @@
 ---
-title: "Your Project Title Here"
-author: "Your team member names here"
-date: "Add a date"
+title: "Potterwatch"
+author: "Sarah Fatihi and John Joire"
+date: "December 13, 2023"
 format:
   html:
-    theme: minty
+    theme: solar
     toc: true
 ---
 

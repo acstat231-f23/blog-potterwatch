@@ -106,34 +106,9 @@ order_numbers <- names_by_chapter |>
   select(order, book_num, chapter_num) |>
   mutate(text = paste0("Book ", book_num, " Chapter ", chapter_num))
 
-```
+write_rds(order_numbers, file = "order_numbers.rds")
 
-```{r setup}
-#| width = 600
-
-anim <- ggplot(names_for_plotting, aes(x = character, y = count, fill = character)) +
-  geom_bar(stat = "identity", width = 1) +
-  theme_bw() +
-  guides(fill = F) +
-  theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5, size = 12)) + 
-  transition_states(
-    order,
-    transition_length = 10,
-    state_length = 10
-  ) +
-  ease_aes('sine-in-out', interval = 0.01) + 
-  labs(
-    title = "Character Distributions in Book {order_numbers |> 
-    filter(order == closest_state) |> distinct(book_num) |> 
-    pull(book_num)} Chapter {order_numbers |> filter(order == closest_state) |> 
-    distinct(chapter_num) |> pull(chapter_num)}",
-    x = "Character",
-    y = "Number of Mentions"
-  )
-
-animate(anim, height = 600, width = 1000, duration = 100, fps  =  10)
-
-anim_save("characteranimation.gif", animation = last_animation())
+write_rds(names_for_plotting, file = "names_for_plotting.rds")
 
 ```
 

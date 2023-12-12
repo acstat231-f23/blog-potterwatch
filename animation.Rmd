@@ -1,0 +1,49 @@
+---
+title: "text-wrangling"
+output: html_document
+date: "2023-10-20"
+---
+
+```{r setup, include=FALSE}
+#| width = 600
+
+# Load libraries
+library(tidyverse)
+library(countrycode)
+library(dplyr)
+library(sf)
+library(wordcloud)
+library(tidytext)
+library(gganimate)
+library(gapminder)
+library(gifski)
+library(animation)
+
+names_for_plotting <- readRDS("names_for_plotting.rds")
+order_numbers <- readRDS("order_numbers.rds")
+
+anim <- ggplot(names_for_plotting, aes(x = character, y = count, fill = character)) +
+  geom_bar(stat = "identity", width = 1) +
+  theme_bw() +
+  guides(fill = F) +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5, size = 12)) + 
+  transition_states(
+    order,
+    transition_length = 10,
+    state_length = 10
+  ) +
+  ease_aes('sine-in-out', interval = 0.01) + 
+  labs(
+    title = "Character Distributions in Book {order_numbers |> 
+    filter(order == closest_state) |> distinct(book_num) |> 
+    pull(book_num)} Chapter {order_numbers |> filter(order == closest_state) |> 
+    distinct(chapter_num) |> pull(chapter_num)}",
+    x = "Character",
+    y = "Number of Mentions"
+  )
+
+animate(anim, height = 600, width = 1000, duration = 100, fps  =  10)
+
+anim_save("characteranimation.gif", animation = last_animation())
+
+```
