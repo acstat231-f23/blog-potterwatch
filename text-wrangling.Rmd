@@ -113,7 +113,6 @@ write_rds(names_for_plotting, file = "names_for_plotting.rds")
 ```
 
 ```{r setup, include=FALSE}
-
 #SENTIMENT LEXICON
 sentiment_data <- get_sentiments("afinn")
 
@@ -121,7 +120,8 @@ sentiment_data <- get_sentiments("afinn")
 movie1 <- read_csv("data/hp1.csv")
 movie2 <- read_csv("data/hp2.csv")
 movie3 <- read_csv("data/hp3.csv")
-movie4 <- read_csv("data/hp4.csv")
+movie4 <- read_csv("data/hp4.csv")|>
+  mutate(movie = "Harry Potter and the Goblet of Fire") #fixed messed up name
 movie5 <- read_csv("data/hp5.csv")
 movie6 <- read_csv("data/hp6.csv")
 movie7 <- read_csv("data/hp7.csv")
@@ -146,6 +146,8 @@ rated_words <- movies_all_words |>
   group_by(movie) |>
   mutate(chapt_num = row_number())
 
+write_rds(rated_words, file = "shiny_rated_data.rds")
+
 total_movie_average <- movies_all_words |> 
   inner_join(sentiment_data) |>
   group_by(movie) |>
@@ -154,23 +156,5 @@ total_movie_average <- movies_all_words |>
   distinct() |>
   ungroup() |>
   mutate(movie_num = row_number())
-
-g <- ggplot(total_movie_average, aes(x = movie_num, y = average_sentiment, color = movie)) +
-  geom_bar(stat="identity") +
-  scale_color_discrete(
-    name = "Movies",
-    labels = c(
-      "Harry Potter and the Philosopher's Stone",
-      "Harry Potter and the Chambers of Secrets",
-      "Harry Potter and the Prisoner of Azkaban",
-      "Harry Potter and the Goblet of Fire",
-      "Harry Potter and the Order of the Phoenix",
-      "Harry Potter and the Half-Blood Prince",
-      "Harry Potter and the Deathly Hallows Part 1",
-      "Harry Potter and the Deathly Hallows Part 2"
-    )
-  )
-
-g
 ```
 
