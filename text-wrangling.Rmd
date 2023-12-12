@@ -15,6 +15,7 @@ library(wordcloud)
 library(tidytext)
 library(gganimate)
 library(gapminder)
+library(gifski)
 
 gap <- gapminder
 
@@ -100,6 +101,10 @@ names_for_plotting <- names_by_chapter |>
   mutate(count = as.numeric(count)) |>
   filter(order <= 200)
 
+order_numbers <- names_by_chapter |>
+  select(order, book_num, chapter_num) |>
+  mutate(text = paste0("Book ", book_num, " Chapter ", chapter_num))
+
 ```
 
 ```{r setup, include=FALSE}
@@ -109,6 +114,9 @@ p <- ggplot(names_for_plotting, aes(x = character, y = count, fill = character))
   geom_bar(stat = "identity") +
   theme_bw() +
   guides(fill = F) +
+  labs(
+    title = 'Name Distribution of Chapter {order}'
+  ) +
   theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5, size = rel(0.8)))
 
 p + transition_states(
@@ -116,11 +124,38 @@ p + transition_states(
     transition_length = 2,
     state_length = 1
   ) +
-  enter_fade() + 
-  exit_shrink() +
   ease_aes('sine-in-out')
 
 p
+
+```
+
+```{r setup, include=FALSE}
+#| width = 300
+
+anim <- ggplot(names_for_plotting, aes(x = character, y = count, fill = character)) +
+  geom_bar(stat = "identity") +
+  theme_bw() +
+  guides(fill = F) +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5, size = rel(0.8))) + 
+  transition_states(
+    order,
+    transition_length = 10,
+    state_length = 10
+  ) +
+  ease_aes('sine-in-out') + 
+  labs(
+    title = "Character Distributions in Book {order_numbers |> 
+    filter(order == closest_state) |> distinct(book_num) |> 
+    pull(book_num)} Chapter {order_numbers |> filter(order == closest_state) |> 
+    distinct(chapter_num) |> pull(chapter_num)}"
+  )
+
+animate(anim)
+
+ani.options(ani.width = 7)
+
+anim_save("characteranimation.gif", p)
 
 ```
 
