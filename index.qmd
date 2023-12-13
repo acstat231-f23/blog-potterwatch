@@ -50,7 +50,7 @@ The Harry Potter series is often thought of first as a fantasy story, but under 
 
 ## Chapter by Chapter Analysis
 
-Before we begin there are a there is something really important I should explain: what exactly is a sentiment analysis? In simple terms it is the process of analyzing a text to determine the emotional tone of its message. In this case I relied on the AFINN lexicon that assigns a variety of words a score running between -5 and +5, with negative scores indicating negative sentiment and positive scores indicating positive sentiment. For each of the movies I found all words that had a matching rating in the lexicon. From there I calculated the average rating of each chapter which is displayed in the interactive graph below. You will ll see that you have the ability to select which movies you would like displayed as well as a hovering tool that allows you to look at various points on the graph and see specific details about the chapter. 
+Before we begin there are a there is something really important I should explain: what exactly is a sentiment analysis? In simple terms it is the process of analyzing a text to determine the emotional tone of its message. In this case I relied on the [AFINN lexicon](http://arxiv.org/abs/1103.2903) that assigns a variety of words a score running between -5 and +5, with negative scores indicating negative sentiment and positive scores indicating positive sentiment. For each of the movies I found all words that had a matching rating in the lexicon. From there I calculated the average rating of each chapter which is displayed in the interactive graph below. You will ll see that you have the ability to select which movies you would like displayed as well as a hovering tool that allows you to look at various points on the graph and see specific details about the chapter. 
 
 ```{r}
 #| label: ds-salaries-app
@@ -157,7 +157,7 @@ cat(
 
 ## The AFINN Lexicon
 
-While we did discuss a couple of limitations the arised from using the AFINN lexicon it is still an amazing tool for a binary analysis of the Harry Potter Series. I've created a datatable below that you can interact with to take a look into how exactly the lexicon works and how my sentiment analysis was done. It may even be interesting to review some of the earlier scenes and see if words you view as negative or positive have a rating in the lexicon. 
+While we did discuss a couple of limitations the arised from using the [AFINN lexicon](http://arxiv.org/abs/1103.2903) it is still an amazing tool for a binary analysis of the Harry Potter Series. I've created a datatable below that you can interact with to take a look into how exactly the lexicon works and how my sentiment analysis was done. It may even be interesting to review some of the earlier scenes and see if words you view as negative or positive have a rating in the lexicon. 
 ```{r}
 # #| label: dt-example
 # #| message: false
@@ -182,34 +182,32 @@ knitr::include_graphics("characteranimation.gif")
 
 # References
 
-All data sources, any key R packages, and any other sources used in developing your blog should be cited in full in a list of references at the end of your blog. Your blog post should also link to these sources as they are discussed. You may choose any reference style as long as sources are fully cited (try to be consistent!).
+## Datasets:
 
-Typically, references in R Markdown (and LaTeX) files are [incorporated with a BibTeX database](https://bookdown.org/yihui/rmarkdown-cookbook/bibliography.html) (a .bib file). You can try this approach or manually include either a numbered or alphabetized list. 
+Chauvet, L. (2021). hp-dataset. GitHub. <https://github.com/Kornflex28/hp-dataset>
 
-Columbia University has compiled some guidance on [how to cite data](https://guides.library.columbia.edu/datacitation). Some data sources will give you the citation information to copy and paste. Use the provided citations or citation styles in those cases.
+Finn Årup Nielsen A new ANEW: Evaluation of a word list for sentiment analysis in microblogs. Proceedings of the ESWC2011 Workshop on 'Making Sense of Microposts': Big things come in small packages 718 in CEUR Workshop Proceedings 93-98. 2011 May. <http://arxiv.org/abs/1103.2903>.
 
-You can list R package citations with the code `citation("packageName")` in the console and then copy (and reformat as needed) the relevant text, e.g.,
-```{r}
-citation("DT")
-```
+## R Packages:
 
-The following citations are based on the American Statistical Association citation style (not all of these references are used in this document).:
+C. Sievert. Interactive Web-Based Data Visualization with R, plotly, and shiny. Chapman and Hall/CRC Florida, 2020.
 
+Silge, J., & Robinson, D. (2016). Tidytext: Text mining and analysis using tidy data principles in R. Journal of Open Source Software, 1(3), 37, available at <https://doi.org/10.21105/joss.00037>
 
-<!-- Textbook -->
-Baumer, B. S., Kaplan, D. T., and Horton, N. J. (2021), *Modern Data Science with R* (2nd ed.), Boca Raton, FL: CRC Press.
+Wickham H, François R, Henry L, Müller K, Vaughan D (2023). "dplyr: A Grammar of Data Manipulation," R package version 1.1.3, available at <https://CRAN.R-project.org/package=dplyr>.
 
-<!-- Journal article -->
-Broman, K. W. and Woo, K. H. (2018), "Data Organization in Spreadsheets," *The American Statistician*, 72:1, 2-10, doi: [10.1080/00031305.2017.1375989](https://doi.org/10.1080/00031305.2017.1375989)
+Wickham H (2016). ggplot2: Elegant Graphics for Data Analysis. Springer-Verlag New York. ISBN 978-3-319-24277-4, available at <https://ggplot2.tidyverse.org>.
 
-<!-- Website -->
-Columbia University Libraries (n.d.), "Data Citation," available at <https://guides.library.columbia.edu/datacitation>.
+Wickham H, Averick M, Bryan J, Chang W, McGowan L, François R, et al. (2019). Welcome to the tidyverse. Journal of Open Source Software. 4 (43), 1686, available at <https://doi.org/10.21105/joss.01686>.
 
-<!-- Journal article -->
-McNamara, A. and Horton N. J. (2018) "Wrangling Categorical Data in R," *The American Statistician*, 72:1, 97-104, doi: [10.1080/00031305.2017.1356375](https://doi.org/10.1080/00031305.2017.1356375).
-
-<!-- Dataset -->
-Shah, Syed A. A. (October 2022), "Starbucks Drinks" (Version 1), *Kaggle*, available at <https://www.kaggle.com/datasets/syedasimalishah/starbucks-drinks>.
-
-<!-- R package -->
 Xie Y, Cheng J, Tan X (2022). "DT: A Wrapper of the JavaScript Library 'DataTables'," R package version 0.24, available at <https://CRAN.R-project.org/package=DT>.
+
+Xie Y (2023). "knitr: A General-Purpose Package for Dynamic Report Generation in R," R package version 1.45, available at <https://yihui.org/knitr/>.
+
+## Videos:
+
+DutchHPfan1992. (2013, January 21). Harry Potter and the Deathly Hallows part 1 - Hermione and the Snatchers in the forrest (HD) [Video file]. YouTube. <https://www.youtube.com/watch?v=LDcz02lEfi4>
+
+Matheusor1. (2008, June 29). Harry Potter- "The chamber of secrets has been opened" scene [Video file]. YouTube. <https://www.youtube.com/watch?v=bjNHWwelxN4>
+
+Potter, Harry. (2017, August 17). The Three Unforgivable Curses | Harry Potter and the Goblet of Fire [Video file]. YouTube. <https://www.youtube.com/watch?v=dbV3qODiBGc>

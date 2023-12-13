@@ -2,11 +2,7 @@
 # import libraries #
 ####################
 library(tidyverse)
-library(countrycode)
 library(dplyr)
-library(sf)
-library(wordcloud)
-library(tidytext)
 library(ggplot2)
 library(plotly)
 
