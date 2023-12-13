@@ -15,7 +15,7 @@ library(plotly)
 ###############
 
 #SENTIMENT LEXICON
-rated_words <- readRDS("shiny_rated_data.rds") #Reads in wrangled data set
+rated_words <- readRDS("data/shiny_rated_data.rds") #Reads in wrangled data set
 
 movie_name_choices <- unique(rated_words$movie)
 

@@ -24,9 +24,12 @@ library(tidyverse)
 library(dplyr)
 library(tidytext)
 library(DT)
-library(htmlwidgets)
 library(ggplot2)
 library(knitr)
+
+#Datasets needed for sentiment analysis
+total_movie_average <- readRDS("data/bar_rated_data.rds")
+sentiment_data <- readRDS("data/sentiment_data.rds")
 ```
 
 
@@ -44,65 +47,6 @@ It is no secret that the Harry Potter book and movie franchise is vastly beloved
 # Sentiment Analysis
 
 The Harry Potter series is often thought of first as a fantasy story, but under that cover, it is a rich coming-of-age story. As the movies progress, and we follow the life of a once young Harry, we also go through with him on many of his firsts. His first birthday cake, first day at Hogwarts, first friends and loves, and the quintessential first battle with a dark wizard that every average teenager goes through. The point is that the Harry Potter series is one that is full of so many emotions, which is ultimately what inspired this project. I will take you through a sentiment analysis of the many movies and discuss how using data allows you to analyze them in a way you likely haven't before.
-
-```{r}
-#| label: movie_data_set_up
-#| include: false
-
-# Set code chunk defaults 
-# Consider adding `message = FALSE` option
-knitr::opts_chunk$set(echo = FALSE) 
-                      
-# Set R environment options
-options(knitr.kable.NA = '')
-
-# Load packages
-library(tidyverse)
-library(dplyr)
-library(tidytext)
-
-#SENTIMENT LEXICON
-sentiment_data <- get_sentiments("afinn")
-
-#MOVIES
-movie1 <- read_csv("data/hp1.csv")
-movie2 <- read_csv("data/hp2.csv")
-movie3 <- read_csv("data/hp3.csv")
-movie4 <- read_csv("data/hp4.csv")|>
-  mutate(movie = "Harry Potter and the Goblet of Fire") #fixed spelling error
-movie5 <- read_csv("data/hp5.csv")
-movie6 <- read_csv("data/hp6.csv")
-movie7 <- read_csv("data/hp7.csv")
-movie8 <- read_csv("data/hp8.csv")
-
-movies_list <- list(movie1, movie2, movie3, movie4, movie5, movie6, movie7, movie8)
-
-movies <- movies_list |>
-  reduce(full_join)
-
-movies_all_words <- movies |>
-  unnest_tokens(output = word, input = dialog) |>
-  mutate(word = tolower(word)) |>
-  select(-character)
-
-rated_words <- movies_all_words |> 
-  inner_join(sentiment_data) |>
-  group_by(movie, chapter) |>
-  mutate(average_sentiment = mean(value)) |>
-  select(-word, -value) |>
-  distinct() |>
-  group_by(movie) |>
-  mutate(chapt_num = row_number())
-
-total_movie_average <- movies_all_words |> 
-  inner_join(sentiment_data) |>
-  group_by(movie) |>
-  mutate(average_sentiment = mean(value)) |>
-  select(-chapter, -word, -value) |>
-  distinct() |>
-  ungroup() |>
-  mutate(movie_num = row_number())
-```
 
 ## Chapter by Chapter Analysis
 
@@ -181,14 +125,14 @@ total_movie_average$movie <- factor(total_movie_average$movie, levels = c(
   "Harry Potter and the Deathly Hallows Part 2"
 ))
 
-# Plotting
+# Plots bar graph
 ggplot(total_movie_average, aes(x = movie_num, y = average_sentiment, fill = movie)) +
   geom_bar(stat = "identity") +
   scale_fill_manual(
     values = c("#AE0001", "#2A623D", "#00165e", "#e3a000", "#808080", "black", "#9e711e", "royalblue3")
   ) +
-  labs(x = "Movie Number", y = "Average Sentiment") +
-  scale_x_discrete(limits = c("1", "2", "3", "4", "5", "6", "7", "8"))
+  labs(x = "Movie Number", y = "Average Sentiment", fill = "Movies") +
+  scale_x_discrete(limits = c("1", "2", "3", "4", "5", "6", "7", "8")) #sets increments to increase by 1
 ```
 
 ## Additional Limitations
@@ -215,15 +159,14 @@ cat(
 
 While we did discuss a couple of limitations the arised from using the AFINN lexicon it is still an amazing tool for a binary analysis of the Harry Potter Series. I've created a datatable below that you can interact with to take a look into how exactly the lexicon works and how my sentiment analysis was done. It may even be interesting to review some of the earlier scenes and see if words you view as negative or positive have a rating in the lexicon. 
 ```{r}
-##| label: dt-example
+# #| label: dt-example
 # #| message: false
-# #| echo: true
+# #| echo: false
 # 
-#
 # sentiment_data |>
 #   DT::datatable(colnames = c("Word", "Assigned Value"),
 #             filter = 'top',
-#             options = list(pageLength = 10, autoWidth = TRUE))
+#              options = list(pageLength = 10, autoWidth = TRUE))
 ```
 
 

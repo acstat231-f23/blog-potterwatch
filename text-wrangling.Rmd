@@ -117,6 +117,8 @@ write_rds(names_for_plotting, file = "names_for_plotting.rds")
 #SENTIMENT LEXICON
 sentiment_data <- get_sentiments("afinn")
 
+write_rds(sentiment_data, file = "sentiment_data.rds")
+
 #MOVIES
 movie1 <- read_csv("data/hp1.csv")
 movie2 <- read_csv("data/hp2.csv")
@@ -133,22 +135,26 @@ movies_list <- list(movie1, movie2, movie3, movie4, movie5, movie6, movie7, movi
 movies <- movies_list |>
   reduce(full_join)
 
+#dataset in which each row is a different word for all movies 
 movies_all_words <- movies |>
   unnest_tokens(output = word, input = dialog) |>
   mutate(word = tolower(word)) |>
   select(-character)
 
+#movie dataset merged with lexicon to only contain overlapping words
 rated_words <- movies_all_words |> 
   inner_join(sentiment_data) |>
   group_by(movie, chapter) |>
   mutate(average_sentiment = mean(value)) |>
   select(-word, -value) |>
-  distinct() |>
+  distinct() |> #gets rid of repeated rows
   group_by(movie) |>
   mutate(chapt_num = row_number())
 
+#creates outputted data file needed for shiny app
 write_rds(rated_words, file = "shiny_rated_data.rds")
 
+#sentiment average by movie
 total_movie_average <- movies_all_words |> 
   inner_join(sentiment_data) |>
   group_by(movie) |>
@@ -157,5 +163,8 @@ total_movie_average <- movies_all_words |>
   distinct() |>
   ungroup() |>
   mutate(movie_num = row_number())
+
+#creates outputted data file needed for bar graph
+write_rds(total_movie_average, file = "bar_rated_data.rds")
 ```
 
