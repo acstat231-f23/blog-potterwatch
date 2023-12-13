@@ -112,6 +112,7 @@ write_rds(names_for_plotting, file = "names_for_plotting.rds")
 
 ```
 
+
 ```{r setup, include=FALSE}
 #SENTIMENT LEXICON
 sentiment_data <- get_sentiments("afinn")

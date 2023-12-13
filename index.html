@@ -22,40 +22,6 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
@@ -70,11 +36,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="index_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="index_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="dark">
 
-<script src="index_files/libs/kePrint-0.0.1/kePrint.js"></script>
-<link href="index_files/libs/lightable-0.0.1/lightable.css" rel="stylesheet">
-
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 </head>
 
@@ -86,37 +47,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#intro" id="toc-intro" class="nav-link active" data-scroll-target="#intro">Intro</a>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#sentiment-analysis" id="toc-sentiment-analysis" class="nav-link" data-scroll-target="#sentiment-analysis">Sentiment Analysis</a>
   <ul class="collapse">
-  <li><a href="#website-publication-work-flow" id="toc-website-publication-work-flow" class="nav-link" data-scroll-target="#website-publication-work-flow">Website publication work flow</a></li>
+  <li><a href="#chapter-by-chapter-analysis" id="toc-chapter-by-chapter-analysis" class="nav-link" data-scroll-target="#chapter-by-chapter-analysis">Chapter by Chapter Analysis</a></li>
+  <li><a href="#extreme-chapters" id="toc-extreme-chapters" class="nav-link" data-scroll-target="#extreme-chapters">Extreme Chapters</a></li>
+  <li><a href="#movie-by-movie-analysis" id="toc-movie-by-movie-analysis" class="nav-link" data-scroll-target="#movie-by-movie-analysis">Movie by Movie Analysis</a></li>
+  <li><a href="#additional-limitations" id="toc-additional-limitations" class="nav-link" data-scroll-target="#additional-limitations">Additional Limitations</a></li>
+  <li><a href="#the-afinn-lexicon" id="toc-the-afinn-lexicon" class="nav-link" data-scroll-target="#the-afinn-lexicon">The AFINN Lexicon</a></li>
   </ul></li>
-  <li><a href="#content" id="toc-content" class="nav-link" data-scroll-target="#content">Content</a>
-  <ul class="collapse">
-  <li><a href="#links" id="toc-links" class="nav-link" data-scroll-target="#links">Links</a></li>
-  <li><a href="#visualizations" id="toc-visualizations" class="nav-link" data-scroll-target="#visualizations">Visualizations</a></li>
-  <li><a href="#tables" id="toc-tables" class="nav-link" data-scroll-target="#tables">Tables</a>
-  <ul class="collapse">
-  <li><a href="#dt-package" id="toc-dt-package" class="nav-link" data-scroll-target="#dt-package"><strong>DT</strong> package</a></li>
-  <li><a href="#kableextra-package" id="toc-kableextra-package" class="nav-link" data-scroll-target="#kableextra-package"><strong>kableExtra</strong> package</a></li>
-  </ul></li>
-  <li><a href="#images" id="toc-images" class="nav-link" data-scroll-target="#images">Images</a></li>
-  <li><a href="#equations" id="toc-equations" class="nav-link" data-scroll-target="#equations">Equations</a></li>
-  </ul></li>
-  <li><a href="#formatting" id="toc-formatting" class="nav-link" data-scroll-target="#formatting">Formatting</a>
-  <ul class="collapse">
-  <li><a href="#tabbed-subsections" id="toc-tabbed-subsections" class="nav-link" data-scroll-target="#tabbed-subsections">Tabbed subsections</a>
-  <ul class="collapse">
-  <li><a href="#bulleted-list" id="toc-bulleted-list" class="nav-link" data-scroll-target="#bulleted-list">Bulleted list</a></li>
-  <li><a href="#numbered-list" id="toc-numbered-list" class="nav-link" data-scroll-target="#numbered-list">Numbered list</a></li>
-  </ul></li>
-  <li><a href="#column-formatting" id="toc-column-formatting" class="nav-link" data-scroll-target="#column-formatting">Column formatting</a></li>
-  </ul></li>
-  <li><a href="#customizing-your-blog-design" id="toc-customizing-your-blog-design" class="nav-link" data-scroll-target="#customizing-your-blog-design">Customizing your blog design</a>
-  <ul class="collapse">
-  <li><a href="#theme" id="toc-theme" class="nav-link" data-scroll-target="#theme">Theme</a></li>
-  <li><a href="#synax-highlighting" id="toc-synax-highlighting" class="nav-link" data-scroll-target="#synax-highlighting">Synax highlighting</a></li>
-  <li><a href="#font-size-type-and-other-customization" id="toc-font-size-type-and-other-customization" class="nav-link" data-scroll-target="#font-size-type-and-other-customization">Font size, type, and other customization</a></li>
-  </ul></li>
+  <li><a href="#johns-section" id="toc-johns-section" class="nav-link" data-scroll-target="#johns-section">JOHN’S SECTION</a></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul>
 </nav>
@@ -152,21 +92,57 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<section id="intro" class="level1">
-<h1>Intro</h1>
-<p>This is a Quarto blog template. This document will be knit to HTML to produce a webpage that will be hosted publicly via GitHub.</p>
-<section id="website-publication-work-flow" class="level2">
-<h2 class="anchored" data-anchor-id="website-publication-work-flow">Website publication work flow</h2>
-<ol type="1">
-<li><p>Edit qmd</p></li>
-<li><p>Knit to HTML to view progress. You may need to click “Open in Browser” for some content to show (sometimes content won’t show until you actually push your changes to GitHub and view the published website).</p></li>
-<li><p>Commit and push changes when you are ready. The website may take a couple minutes to update automatically after the push, but you may need to clear your browser’s cache or view the page in a private/incognito window to see the changes more quickly.</p></li>
-</ol>
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="potter-watch-logo.png" class="img-fluid figure-img" style="width:80.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>It is no secret that the Harry Potter book and movie franchise is vastly beloved: its world building and character development lauded as some of the best for children and young adults. The books are split into seven installments: “Harry Potter and the Philosopher’s Stone,” “Harry Potter and the Half Blood Prince,” “Harry Potter and the Prisoner of Azkaban,” “Harry Potter and the Goblet of Fire,” “Harry Potter and the Order of the Phoenix,” “Harry Potter and the Half-Blood Prince,” and “Harry Potter and the Deathly Hallows.” The movies are divided similarly, only having two parts to “Harry Potter and the Deathly Hallows” instead of one. Seeking to see trends in character mention frequency and sentiment in the books and movies respectively, we created two visualizations.</p>
 </section>
+<section id="sentiment-analysis" class="level1">
+<h1>Sentiment Analysis</h1>
+<p>The Harry Potter series is often thought of first as a fantasy story, but under that cover, it is a rich coming-of-age story. As the movies progress, and we follow the life of a once young Harry, we also go through with him on many of his firsts. His first birthday cake, first day at Hogwarts, first friends and loves, and the quintessential first battle with a dark wizard that every average teenager goes through. The point is that the Harry Potter series is one that is full of so many emotions, which is ultimately what inspired this project. I will take you through a sentiment analysis of the many movies and discuss how using data allows you to analyze them in a way you likely haven’t before.</p>
+<section id="chapter-by-chapter-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="chapter-by-chapter-analysis">Chapter by Chapter Analysis</h2>
+<p>Before we begin there are a there is something really important I should explain: what exactly is a sentiment analysis? In simple terms it is the process of analyzing a text to determine the emotional tone of its message. In this case I relied on the AFINN lexicon that assigns a variety of words a score running between -5 and +5, with negative scores indicating negative sentiment and positive scores indicating positive sentiment. For each of the movies I found all words that had a matching rating in the lexicon. From there I calculated the average rating of each chapter which is displayed in the interactive graph below. You will ll see that you have the ability to select which movies you would like displayed as well as a hovering tool that allows you to look at various points on the graph and see specific details about the chapter.</p>
+<div class="cell">
+<iframe src="https://sarah-fatihi.shinyapps.io/blog-potterwatch/?showcase=0" width="100%" height="500px" data-external="1">
+</iframe>
+</div>
 </section>
-<section id="content" class="level1">
-<h1>Content</h1>
-<p>You can include text, <code>code</code>, and output as usual. Remember to take full advantage of Markdown and its <a href="https://www.markdownguide.org/basic-syntax/">syntax shortcuts</a>.</p>
+<section id="extreme-chapters" class="level2">
+<h2 class="anchored" data-anchor-id="extreme-chapters">Extreme Chapters</h2>
+<p>I want to bring your attention to the chapters that were noted as having the greatest and least average sentiment in the entire series. The chapter that was considered most positive is “Getting Too Close” in “Harry Potter and the Deathly Hallows Part 1”. Additionally, the chapter the was considered the most negative is “Writing on the Wall” in “Harry Potter and the Chamber of Secrets”. Now for those of you that are potterheads and are deeply familiar with the movies, this may already raise some red flags for you. Regardless, lets take a look at the chapters:</p>
+<div class="cell" data-layout-align="center">
+<p style="text-align:center;">
+‘Getting Too Close’ - Most Positive Chapter
+</p>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/LDcz02lEfi4" frameborder="0" allow="accelerometer; autoplay; encrypted-media;
+  gyroscope; picture-in-picture" allowfullscreen="">
+</iframe>
+</div>
+<p>It doesn’t take an avid Harry Potter fan to sense that ‘Getting Too Close’ probably isn’t the most positive chapter in the entire series. For those that need context: up this point the three characters you see are in hiding, and on a quest to find and destroy the remaining parts of Voldemort’s (a dark wizard that is also Harry’s arch-nemesis) soul in order to save the world. Voldemort is obsessed with wizard blood purity and is the leader of a movement that aims to rid the wizarding world of Muggles (non-magical humans). Under his reign, snatchers arise and their job is to capture and turn in muggle-borns, mudbloods, and blood-traitors. Coincidentally, Harry, Ron, and Hermione are all three. In the chapter you just watched despite Hermoine having set up magical barriers she is still struck by fear of getting caught and killed as a snatcher can smell her perfume. In other words, this is definitely not a positive scene.</p>
+<p>So if the chapter is so clearly negative, why does it show up as being the most positive scene? Well this is a very important limitation that needs to be addressed when analyzing the movies with a lexicon. In movie production there is a common principle of “show don’t tell”. The idea is to simply show the viewers something rather than relying on dialogue or narration to explain it. As a result the dialogue in many chapters we see are quite limited. In this case, only a few lines are considered to be in this dataset for this chapter including: “What’s that? That… smell?”, “Snatchers”, “Good to know your enchantments work”, and “He could smell it. My perfume.” With only 4 lines of dialogue the sentiment analysis becomes extremely limited and, as it turns out, the only word that was in the lexicon was “good” with a rating of 3. It then follows that the average sentiment of the chapter is 3.</p>
+<p>Now that we have this limitation in mind lets take a look at the most negative chapter while paying attention to the dialogue and see why it might have that rating:</p>
+<div class="cell" data-layout-align="center">
+<p style="text-align:center;">
+‘Writing on the Wall’ - Most Negative Chapter
+</p>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/bjNHWwelxN4" frameborder="0" allow="accelerometer; autoplay; encrypted-media;
+  gyroscope; picture-in-picture" allowfullscreen="">
+</iframe>
+</div>
+<p>After listening did you happen to notice any repeated words that might have negative sentiment? That’s right, the word kill is used frequently and by many characters in the chapter. As it turns out, the lexicon has the word kill rated as a -3. The scene is definitely eerie which matches with its negative rating, however, it may not be the scene that comes to mind when one tries thinking of the most negative. The series is full of deaths as well as many other sad and painful moments that others would typically associate as being more negative.</p>
+</section>
+<section id="movie-by-movie-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="movie-by-movie-analysis">Movie by Movie Analysis</h2>
+<p>For this reason above, I thought may also be beneficial to take a step back. The visualization below displays the average sentiment for each movie in the series. The data shown was calculated in the same way as the chapter by chapter analysis, just on a broader scale. I find that this visualization matches better with how I, and how I would think most others, picture the Harry Potter series. While this is still far from perfect there are some trends that make more sense. For one, the most negative movie is the final one in which the greatest battle of the series occurs and many beloved characters unfortunately lose their lives. Additionally, the most positive movie is “Harry Potter and the Half Blood Prince” which is the book in which Harry falls in love for the first time. This is quickly followed by the very first movie in which Harry was allowed to leave his abusive household and gets introduced to the world of magic where he finally feels belonging.</p>
 <div class="cell" data-layout-align="left">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-left">
@@ -176,93 +152,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<p>Examples and additional guidance are provided below.</p>
-<p>Take note of the the default code chunk options in the <code>setup</code> code chunk. For example, unlike the rest of the qmd files we worked in this semester, the default code chunk option is <code>echo = FALSE</code>, so you will need to set <code>echo  = TRUE</code> for any code chunks you would like to display in the blog. You should be thoughtful and intentional about the code you choose to display.</p>
-<section id="links" class="level2">
-<h2 class="anchored" data-anchor-id="links">Links</h2>
-<p>You can include <a href="https://www.datadreaming.org/post/r-markdown-theme-gallery/">links</a> using Markdown syntax as shown.</p>
-<p>You should include links to relevant sites as you write. You should additionally include a list of references as the end of your blog with full citations (and relevant links).</p>
 </section>
-<section id="visualizations" class="level2">
-<h2 class="anchored" data-anchor-id="visualizations">Visualizations</h2>
-<p>Visualizations, particularly interactive ones, will be well-received. That said, do not overuse visualizations. You may be better off with one complicated but well-crafted visualization as opposed to many quick-and-dirty plots. Any plots should be well-thought-out, properly labeled, informative, and visually appealing.</p>
-<p>If you want to include dynamic visualizations or tables, you should explore your options from packages that are built from <a href="https://www.htmlwidgets.org/showcase_leaflet.html"><strong>htmlwidgets</strong></a>. These <strong>htmlwidgets</strong>-based packages offer ways to build lighterweight, dynamic visualizations or tables that don’t require an R server to run! A more complete list of packages is available on the linked website, but a short list includes:</p>
-<ul>
-<li><a href="https://plot.ly/r/"><strong>plotly</strong></a>: Interactive graphics with D3</li>
-<li><a href="https://rstudio.github.io/leaflet/"><strong>leaflet</strong></a>: Interactive maps with OpenStreetMap</li>
-<li><a href="http://rstudio.github.io/dygraphs"><strong>dygraphs</strong></a>: Interactive time series visualization</li>
-<li><a href="http://dataknowledge.github.io/visNetwork"><strong>visNetwork</strong></a>: Network graph visualization vis.js</li>
-<li><a href="https://github.com/htmlwidgets/sparkline"><strong>sparkline</strong></a>: Small inline charts</li>
-<li><a href="https://github.com/bwlewis/rthreejs"><strong>threejs</strong></a>: Interactive 3D graphics</li>
-</ul>
-<p>You may embed a published Shiny app in your blog if useful, but be aware that there is a limited window size for embedded objects, which tends to makes the user experience of the app worse relative to a dedicated Shiny app page. Additionally, Shiny apps will go idle after a few minutes and have to be reloaded by the user, which may also affect the user experience.</p>
-<p>Any Shiny apps embedded in your blog should be accompanied by the link to the published Shiny app (I did this using a figure caption in the code chunk below, but you don’t have to incorporate the link in this way).</p>
-<div class="cell">
-<iframe src="https://bebailey.shinyapps.io/data-science-salaries?showcase=0" width="100%" height="500px" data-external="1">
+<section id="additional-limitations" class="level2">
+<h2 class="anchored" data-anchor-id="additional-limitations">Additional Limitations</h2>
+<p>An important limitation that also needs to be considered when analyzing a fantasy series is the scope of the lexicon. The author behind the Harry Potter books, that the movies were later based on, created a heavily fictionalized world. It’s a world in which magic exists, currency is gold, and magical creatures from giants to dragons all live. With this new world, however, also comes new language. Throughout this post I’ve introduced some of this language including “muggles”, “mud-bloods”, and “snatchers” yet this is only the tip of the iceberg. There are so many other magical terms including at least 110 different spells used in the series. This language being fictional was obviously not included in the lexicon, and thus wasn’t included in the analysis, but many of them have clear negative or positive connotations. A great example of this are the unforgivable curses which is best explained by this scene:</p>
+<div class="cell" data-layout-align="center">
+<p style="text-align:center;">
+‘The Three Unforgivable Curses’
+</p>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/dbV3qODiBGc" frameborder="0" allow="accelerometer; autoplay; encrypted-media;
+  gyroscope; picture-in-picture" allowfullscreen="">
 </iframe>
 </div>
 </section>
-<section id="tables" class="level2">
-<h2 class="anchored" data-anchor-id="tables">Tables</h2>
-<section id="dt-package" class="level3">
-<h3 class="anchored" data-anchor-id="dt-package"><strong>DT</strong> package</h3>
-<p>The <a href="https://rstudio.github.io/DT/"><strong>DT</strong> package</a> is great for making dynamic tables that can be displayed, searched, and filtered by the user without needing an R server or Shiny app!</p>
-<p>Note: you should load any packages you use in the <code>setup</code> code chunk as usual. The <code>library()</code> functions are shown below just for demonstration.</p>
-</section>
-<section id="kableextra-package" class="level3">
-<h3 class="anchored" data-anchor-id="kableextra-package"><strong>kableExtra</strong> package</h3>
-<p>You can also use <a href="https://cran.r-project.org/web/packages/kableExtra/vignettes/awesome_table_in_html.html"><strong>kableExtra</strong></a> for customizing HTML tables.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(kableExtra)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(cars) <span class="sc">|&gt;</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kbl</span>(<span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Speed"</span>, <span class="st">"Distance"</span>), <span class="at">row.names =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>(<span class="at">bootstrap_options =</span> <span class="st">"striped"</span>, <span class="at">full_width =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">row_spec</span>(<span class="dv">0</span>, <span class="at">bold =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">column_spec</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, <span class="at">width =</span> <span class="st">"1.5in"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<table class="table table-striped table-sm small" data-quarto-postprocess="true">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th" style="text-align: left; font-weight: bold;">Speed</th>
-<th data-quarto-table-cell-role="th" style="text-align: left; font-weight: bold;">Distance</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left; width: 1.5in;">Min. : 4.0</td>
-<td style="text-align: left; width: 1.5in;">Min. : 2.00</td>
-</tr>
-<tr class="even">
-<td style="text-align: left; width: 1.5in;">1st Qu.:12.0</td>
-<td style="text-align: left; width: 1.5in;">1st Qu.: 26.00</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left; width: 1.5in;">Median :15.0</td>
-<td style="text-align: left; width: 1.5in;">Median : 36.00</td>
-</tr>
-<tr class="even">
-<td style="text-align: left; width: 1.5in;">Mean :15.4</td>
-<td style="text-align: left; width: 1.5in;">Mean : 42.98</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left; width: 1.5in;">3rd Qu.:19.0</td>
-<td style="text-align: left; width: 1.5in;">3rd Qu.: 56.00</td>
-</tr>
-<tr class="even">
-<td style="text-align: left; width: 1.5in;">Max. :25.0</td>
-<td style="text-align: left; width: 1.5in;">Max. :120.00</td>
-</tr>
-</tbody>
-</table>
-
-
-</div>
-</div>
+<section id="the-afinn-lexicon" class="level2">
+<h2 class="anchored" data-anchor-id="the-afinn-lexicon">The AFINN Lexicon</h2>
+<p>While we did discuss a couple of limitations the arised from using the AFINN lexicon it is still an amazing tool for a binary analysis of the Harry Potter Series. I’ve created a datatable below that you can interact with to take a look into how exactly the lexicon works and how my sentiment analysis was done. It may even be interesting to review some of the earlier scenes and see if words you view as negative or positive have a rating in the lexicon.</p>
 </section>
 </section>
-<section id="images" class="level2">
-<h2 class="anchored" data-anchor-id="images">Images</h2>
-<p>Images and gifs can be displayed using code chunks:</p>
+<section id="johns-section" class="level1">
+<h1>JOHN’S SECTION</h1>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
@@ -273,173 +182,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<div class="cell" data-layout-align="center">
-<div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="https://media.giphy.com/media/H7ZrrA9V2pd3Tehdds/giphy.gif" class="img-fluid figure-img" style="width:50.0%"></p>
-<figcaption class="figure-caption">This is a figure caption</figcaption>
-</figure>
-</div>
-</div>
-</div>
-<p>You may also use Markdown syntax for displaying images as shown below, but code chunks offer easier customization of the image size and alignment.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="https://media.giphy.com/media/8i5IvxP9ZLgmjXN1BF/giphy.gif" class="img-fluid figure-img"></p>
-<figcaption class="figure-caption">This is another figure caption</figcaption>
-</figure>
-</div>
-<p>Either way, the file path can be a local path within your project directory or a URL for an image hosted online. This syntax works for PNG, PDF, JPG, and even GIF formats.</p>
-</section>
-<section id="equations" class="level2">
-<h2 class="anchored" data-anchor-id="equations">Equations</h2>
-<p>You might include equations if part of the purpose of your blog is to explain a statistical method. There are two ways to include equations:</p>
-<ul>
-<li>Inline: <span class="math inline">\(b \sim N(0, \sigma^2_b)\)</span></li>
-<li>Display-style (displayed on its own line): <span class="math display">\[\frac{\sigma^2_b}{\sigma^2_b + \sigma^2_e}\]</span></li>
-</ul>
-<p>For typesetting equations appropriately, check out the <a href="https://github.com/manuelemacchia/math-latex/blob/master/amsmath.pdf">AMS-LaTeX quick reference</a> or take a look at the <em>Symbols in math mode</em> section of this <a href="https://users.dickinson.edu/~richesod/latex/latexcheatsheet.pdf">cheat sheet</a> (or do some extra Googling—there are <em>many</em> resources).</p>
-</section>
-</section>
-<section id="formatting" class="level1">
-<h1>Formatting</h1>
-<section id="tabbed-subsections" class="level2 tabset">
-<h2 class="tabset anchored" data-anchor-id="tabbed-subsections">Tabbed subsections</h2>
-<p>Each subsection below the “Tabbed subsections” section heading will appear in a tab. See R Markdown Cookbook <a href="https://bookdown.org/yihui/rmarkdown-cookbook/html-tabs.html">Section 7.6: Put content in tabs</a> for additional customization options.</p>
-<section id="bulleted-list" class="level3">
-<h3 class="anchored" data-anchor-id="bulleted-list">Bulleted list</h3>
-<p>You can make a bulleted list like this:</p>
-<ul>
-<li>item 1</li>
-<li>item 2</li>
-<li>item 3</li>
-</ul>
-</section>
-<section id="numbered-list" class="level3">
-<h3 class="anchored" data-anchor-id="numbered-list">Numbered list</h3>
-<p>You can make a numbered list like this</p>
-<ol type="1">
-<li>First thing I want to say</li>
-<li>Second thing I want to say</li>
-<li>Third thing I want to say</li>
-</ol>
-</section>
-</section>
-<section id="column-formatting" class="level2">
-<h2 class="anchored" data-anchor-id="column-formatting">Column formatting</h2>
-<!-- Begin columns environment -->
-<div style="display: flex; font-size: large;">
-<!-- Create a column -->
-<section id="content-column-1" class="level3">
-<h3 class="anchored" data-anchor-id="content-column-1">Content Column 1</h3>
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse vel ipsum eu sem facilisis porttitor. Integer eu tristique lectus. Vestibulum nisi risus, porta sit amet cursus nec, auctor ac tellus. Integer egestas viverra rhoncus. Fusce id sem non ante vestibulum posuere ac sed lorem. Proin id felis a mi pellentesque viverra in at nulla. Duis augue nulla, aliquet ac ligula a, sagittis varius lorem.</p>
-</section>
-<!-- Create another column (this one is just adding horizontal space to separate content) -->
-<div>
-<div class="horizontalgap" style="width:60px">
-
-</div>
-</div>
-<!-- Create another column -->
-<section id="content-column-2" class="level3">
-<h3 class="anchored" data-anchor-id="content-column-2">Content Column 2</h3>
-<p>Aliquam non ante et erat luctus hendrerit eu ac justo. Fusce lacinia pulvinar neque non laoreet. Fusce vitae mauris pharetra, scelerisque purus eget, pharetra nisl. Aenean volutpat elementum tortor vitae rhoncus. Phasellus nec tellus euismod neque congue imperdiet tincidunt in mauris. Morbi eu lorem molestie, hendrerit lorem nec, semper massa. Sed vulputate hendrerit ex, eget cursus purus. Pellentesque consequat erat leo, eleifend porttitor lacus porta at. Vivamus faucibus quam ipsum, id condimentum ligula malesuada ultrices. Nullam luctus leo elit, vitae rutrum nibh venenatis eget. Nam at sodales purus. Proin nulla tellus, lacinia eget pretium sed, vehicula aliquet neque. Morbi vel eros elementum, suscipit elit eu, consequat libero. Nulla nec aliquet neque. Nunc bibendum sapien lectus, sed elementum nisi rutrum non. Ut vulputate at lacus eget maximus.</p>
-<div class="cell" data-layout-align="right">
-<div class="cell-output-display">
-<div class="quarto-figure quarto-figure-right">
-<figure class="figure">
-<p><img src="index_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" style="width:80.0%"></p>
-</figure>
-</div>
-</div>
-</div>
-</section>
-</div>
-<!-- End columns environment with matching length indicator-->
-</section>
-</section>
-<section id="customizing-your-blog-design" class="level1">
-<h1>Customizing your blog design</h1>
-<p>As a <em>final</em> detail <strong>only</strong> if you have time, you can explore options for customizing the style of your blog. By default, we are using the <code>cosmo</code> theme from Bootswatch themes (see Line 7 of this file if you want to switch out themes).</p>
-<section id="theme" class="level2">
-<h2 class="anchored" data-anchor-id="theme">Theme</h2>
-<p>There are 25 Bootswatch themes included with Quarto. You can change the theme easily by specifying one of these themes on Line 7:</p>
-<ul>
-<li>default<br>
-</li>
-<li>cerulean<br>
-</li>
-<li>cosmo<br>
-</li>
-<li>cyborg<br>
-</li>
-<li>darkly<br>
-</li>
-<li>flatly<br>
-</li>
-<li>journal<br>
-</li>
-<li>litera<br>
-</li>
-<li>lumen<br>
-</li>
-<li>lux<br>
-</li>
-<li>materia<br>
-</li>
-<li>minty<br>
-</li>
-<li>morph<br>
-</li>
-<li>pulse<br>
-</li>
-<li>quartz<br>
-</li>
-<li>sandstone<br>
-</li>
-<li>simplex<br>
-</li>
-<li>sketchy<br>
-</li>
-<li>slate<br>
-</li>
-<li>solar<br>
-</li>
-<li>spacelab<br>
-</li>
-<li>superhero<br>
-</li>
-<li>united<br>
-</li>
-<li>vapor<br>
-</li>
-<li>yeti<br>
-</li>
-<li>zephyr</li>
-</ul>
-<p>There are, I’m sure, many more similar packages with built in themes, or you can look into how to include a CSS code chunk to customize aspects of a theme.</p>
-</section>
-<section id="synax-highlighting" class="level2">
-<h2 class="anchored" data-anchor-id="synax-highlighting">Synax highlighting</h2>
-<p>You can also change the code chunk syntax highlighting option (Line 7, <code>highlight</code>):</p>
-<ul>
-<li><code>"default"</code></li>
-<li><code>"tango"</code></li>
-<li><code>"pygments"</code></li>
-<li><code>"kate"</code></li>
-<li><code>"monochrome"</code></li>
-<li><code>"espresso"</code></li>
-<li><code>"zenburn"</code></li>
-<li><code>"haddock"</code></li>
-<li><code>"textmate"</code></li>
-<li><code>NULL</code> for no syntax highlighting (not recommended)</li>
-</ul>
-</section>
-<section id="font-size-type-and-other-customization" class="level2">
-<h2 class="anchored" data-anchor-id="font-size-type-and-other-customization">Font size, type, and other customization</h2>
-<p>Further customization requires adding a CSS style file or code chunk or incorporating other development options. Further customization should be your lowest and final priority for the project. Ensure your content is fully prepared first.</p>
-</section>
 </section>
 <section id="references" class="level1">
 <h1>References</h1>
@@ -452,7 +194,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>To cite package 'DT' in publications use:
 
   Xie Y, Cheng J, Tan X (2023). _DT: A Wrapper of the JavaScript
-  Library 'DataTables'_. R package version 0.29,
+  Library 'DataTables'_. R package version 0.31,
   &lt;https://CRAN.R-project.org/package=DT&gt;.
 
 A BibTeX entry for LaTeX users is
@@ -461,7 +203,7 @@ A BibTeX entry for LaTeX users is
     title = {DT: A Wrapper of the JavaScript Library 'DataTables'},
     author = {Yihui Xie and Joe Cheng and Xianying Tan},
     year = {2023},
-    note = {R package version 0.29},
+    note = {R package version 0.31},
     url = {https://CRAN.R-project.org/package=DT},
   }</code></pre>
 </div>

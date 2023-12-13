@@ -21,121 +21,213 @@ options(knitr.kable.NA = '')
 
 # Load packages
 library(tidyverse)
-
+library(dplyr)
+library(tidytext)
+library(DT)
+library(htmlwidgets)
+library(ggplot2)
+library(knitr)
 ```
 
-# Intro
 
-This is a Quarto blog template. This document will be knit to HTML to produce a webpage that will be hosted publicly via GitHub.
+# Introduction
+```{r}
+#| fig.cap: 
+#| out.width: 80%
+#| fig.align: center
 
-## Website publication work flow
+knitr::include_graphics("potter-watch-logo.png")
+```
 
-1. Edit qmd
+It is no secret that the Harry Potter book and movie franchise is vastly beloved: its world building and character development lauded as some of the best for children and young adults. The books are split into seven installments: “Harry Potter and the Philosopher’s Stone,” “Harry Potter and the Half Blood Prince,” “Harry Potter and the Prisoner of Azkaban,” “Harry Potter and the Goblet of Fire,” “Harry Potter and the Order of the Phoenix,” “Harry Potter and the Half-Blood Prince,” and “Harry Potter and the Deathly Hallows.” The movies are divided similarly, only having two parts to “Harry Potter and the Deathly Hallows” instead of one. Seeking to see trends in character mention frequency and sentiment in the books and movies respectively, we created two visualizations.
 
-2. Knit to HTML to view progress. You may need to click "Open in Browser" for some content to show (sometimes content won't show until you actually push your changes to GitHub and view the published website).
+# Sentiment Analysis
 
-3. Commit and push changes when you are ready. The website may take a couple minutes to update automatically after the push, but you may need to clear your browser's cache or view the page in a private/incognito window to see the changes more quickly. 
+The Harry Potter series is often thought of first as a fantasy story, but under that cover, it is a rich coming-of-age story. As the movies progress, and we follow the life of a once young Harry, we also go through with him on many of his firsts. His first birthday cake, first day at Hogwarts, first friends and loves, and the quintessential first battle with a dark wizard that every average teenager goes through. The point is that the Harry Potter series is one that is full of so many emotions, which is ultimately what inspired this project. I will take you through a sentiment analysis of the many movies and discuss how using data allows you to analyze them in a way you likely haven't before.
+
+```{r}
+#| label: movie_data_set_up
+#| include: false
+
+# Set code chunk defaults 
+# Consider adding `message = FALSE` option
+knitr::opts_chunk$set(echo = FALSE) 
+                      
+# Set R environment options
+options(knitr.kable.NA = '')
+
+# Load packages
+library(tidyverse)
+library(dplyr)
+library(tidytext)
+
+#SENTIMENT LEXICON
+sentiment_data <- get_sentiments("afinn")
+
+#MOVIES
+movie1 <- read_csv("data/hp1.csv")
+movie2 <- read_csv("data/hp2.csv")
+movie3 <- read_csv("data/hp3.csv")
+movie4 <- read_csv("data/hp4.csv")|>
+  mutate(movie = "Harry Potter and the Goblet of Fire") #fixed spelling error
+movie5 <- read_csv("data/hp5.csv")
+movie6 <- read_csv("data/hp6.csv")
+movie7 <- read_csv("data/hp7.csv")
+movie8 <- read_csv("data/hp8.csv")
+
+movies_list <- list(movie1, movie2, movie3, movie4, movie5, movie6, movie7, movie8)
+
+movies <- movies_list |>
+  reduce(full_join)
+
+movies_all_words <- movies |>
+  unnest_tokens(output = word, input = dialog) |>
+  mutate(word = tolower(word)) |>
+  select(-character)
+
+rated_words <- movies_all_words |> 
+  inner_join(sentiment_data) |>
+  group_by(movie, chapter) |>
+  mutate(average_sentiment = mean(value)) |>
+  select(-word, -value) |>
+  distinct() |>
+  group_by(movie) |>
+  mutate(chapt_num = row_number())
+
+total_movie_average <- movies_all_words |> 
+  inner_join(sentiment_data) |>
+  group_by(movie) |>
+  mutate(average_sentiment = mean(value)) |>
+  select(-chapter, -word, -value) |>
+  distinct() |>
+  ungroup() |>
+  mutate(movie_num = row_number())
+```
+
+## Chapter by Chapter Analysis
+
+Before we begin there are a there is something really important I should explain: what exactly is a sentiment analysis? In simple terms it is the process of analyzing a text to determine the emotional tone of its message. In this case I relied on the AFINN lexicon that assigns a variety of words a score running between -5 and +5, with negative scores indicating negative sentiment and positive scores indicating positive sentiment. For each of the movies I found all words that had a matching rating in the lexicon. From there I calculated the average rating of each chapter which is displayed in the interactive graph below. You will ll see that you have the ability to select which movies you would like displayed as well as a hovering tool that allows you to look at various points on the graph and see specific details about the chapter. 
+
+```{r}
+#| label: ds-salaries-app
+#| out.width: "100%"
+
+knitr::include_app("https://sarah-fatihi.shinyapps.io/blog-potterwatch/",
+                   height = "500px")
+```
+
+## Extreme Chapters
+I want to bring your attention to the chapters that were noted as having the greatest and least average sentiment in the entire series. The chapter that was considered most positive is "Getting Too Close" in "Harry Potter and the Deathly Hallows Part 1". Additionally, the chapter the was considered the most negative is "Writing on the Wall" in "Harry Potter and the Chamber of Secrets". Now for those of you that are potterheads and are deeply familiar with the movies, this may already raise some red flags for you. Regardless, lets take a look at the chapters:
 
 
-# Content
+```{r,eval=knitr::is_html_output(excludes = "epub"), results = 'asis', echo = F}
+#| fig.cap: Video
+#| out.width: 80%
+#| fig.align: center
 
-You can include text, `code`, and output as usual. Remember to take full advantage of Markdown and its [syntax shortcuts](https://www.markdownguide.org/basic-syntax/).
+cat("<p style='text-align:center;'> 'Getting Too Close' - Most Positive Chapter </p>")  #Caption
+
+cat(
+'<iframe width="560" height="315" 
+  src="https://www.youtube.com/embed/LDcz02lEfi4"
+  frameborder="0" allow="accelerometer; autoplay; encrypted-media;
+  gyroscope; picture-in-picture" allowfullscreen>
+  </iframe>'
+)
+```
+
+It doesn't take an avid Harry Potter fan to sense that 'Getting Too Close' probably isn't the most positive chapter in the entire series. For those that need context: up this point the three characters you see are in hiding, and on a quest to find and destroy the remaining parts of Voldemort's (a dark wizard that is also Harry's arch-nemesis) soul in order to save the world. Voldemort is obsessed with wizard blood purity and is the leader of a movement that aims to rid the wizarding world of Muggles (non-magical humans). Under his reign, snatchers arise and their job is to capture and turn in muggle-borns, mudbloods, and blood-traitors. Coincidentally, Harry, Ron, and Hermione are all three. In the chapter you just watched despite Hermoine having set up magical barriers she is still struck by fear of getting caught and killed as a snatcher can smell her perfume. In other words, this is definitely not a positive scene. 
+
+So if the chapter is so clearly negative, why does it show up as being the most positive scene? Well this is a very important limitation that needs to be addressed when analyzing the movies with a lexicon. In movie production there is a common principle of "show don't tell". The idea is to simply show the viewers something rather than relying on dialogue or narration to explain it. As a result the dialogue in many chapters we see are quite limited. In this case, only a few lines are considered to be in this dataset for this chapter including: "What's that?  That... smell?", "Snatchers", "Good to know your enchantments work", and "He could smell it.  My perfume." With only 4 lines of dialogue the sentiment analysis becomes extremely limited and, as it turns out, the only word that was in the lexicon was "good" with a rating of 3. It then follows that the average sentiment of the chapter is 3. 
+
+Now that we have this limitation in mind lets take a look at the most negative chapter while paying attention to the dialogue and see why it might have that rating:
+
+```{r,eval=knitr::is_html_output(excludes = "epub"), results = 'asis', echo = F}
+#| fig.cap: Video
+#| out.width: 80%
+#| fig.align: center
+
+cat("<p style='text-align:center;'> 'Writing on the Wall ' - Most Negative Chapter </p>")  #Caption
+
+cat(
+'<iframe width="560" height="315" 
+  src="https://www.youtube.com/embed/bjNHWwelxN4"
+  frameborder="0" allow="accelerometer; autoplay; encrypted-media;
+  gyroscope; picture-in-picture" allowfullscreen>
+  </iframe>'
+)
+```
+
+After listening did you happen to notice any repeated words that might have negative sentiment? That's right, the word kill is used frequently and by many characters in the chapter. As it turns out, the lexicon has the word kill rated as a -3. The scene is definitely eerie which matches with its negative rating, however, it may not be the scene that comes to mind when one tries thinking of the most negative. The series is full of deaths as well as many other sad and painful moments that others would typically associate as being more negative. 
+
+## Movie by Movie Analysis
+
+For this reason above, I thought may also be beneficial to take a step back. The visualization below displays the average sentiment for each movie in the series. The data shown was calculated in the same way as the chapter by chapter analysis, just on a broader scale. I find that this visualization matches better with how I, and how I would think most others, picture the Harry Potter series. While this is still far from perfect there are some trends that make more sense. For one, the most negative movie is the final one in which the greatest battle of the series occurs and many beloved characters unfortunately lose their lives. Additionally, the most positive movie is "Harry Potter and the Half Blood Prince" which is the book in which Harry falls in love for the first time. This is quickly followed by the very first movie in which Harry was allowed to leave his abusive household and gets introduced to the world of magic where he finally feels belonging.
 
 ```{r}
 #| label: ggplot-example
 #| fig.align: left
 #| out.width: 100%
 
-ggplot(data = cars, aes(x = speed, y = dist)) + 
-  geom_point() + 
-  labs(x = "Speed of car (mph)",
-       y = "Distance taken to stop (ft)",
-       title = "Stopping distance increases with faster speeds",
-       subtitle = "Based on 1920s study") +
-  theme_classic()
+#Allows for legend to be in order of movie
+total_movie_average$movie <- factor(total_movie_average$movie, levels = c(
+  "Harry Potter and the Philosopher's Stone",
+  "Harry Potter and the Chamber of Secrets",
+  "Harry Potter and the Prisoner of Azkaban",
+  "Harry Potter and the Goblet of Fire",
+  "Harry Potter and the Order of the Phoenix",
+  "Harry Potter and the Half-Blood Prince",
+  "Harry Potter and the Deathly Hallows Part 1",
+  "Harry Potter and the Deathly Hallows Part 2"
+))
+
+# Plotting
+ggplot(total_movie_average, aes(x = movie_num, y = average_sentiment, fill = movie)) +
+  geom_bar(stat = "identity") +
+  scale_fill_manual(
+    values = c("#AE0001", "#2A623D", "#00165e", "#e3a000", "#808080", "black", "#9e711e", "royalblue3")
+  ) +
+  labs(x = "Movie Number", y = "Average Sentiment") +
+  scale_x_discrete(limits = c("1", "2", "3", "4", "5", "6", "7", "8"))
 ```
 
-Examples and additional guidance are provided below. 
+## Additional Limitations
 
-Take note of the the default code chunk options in the `setup` code chunk. For example, unlike the rest of the qmd files we worked in this semester, the default code chunk option is `echo = FALSE`, so you will need to set `echo  = TRUE` for any code chunks you would like to display in the blog. You should be thoughtful and intentional about the code you choose to display. 
+An important limitation that also needs to be considered when analyzing a fantasy series is the scope of the lexicon. The author behind the Harry Potter books, that the movies were later based on, created a heavily fictionalized world. It's a world in which magic exists, currency is gold, and magical creatures from giants to dragons all live. With this new world, however, also comes new language. Throughout this post I've introduced some of this language including "muggles", "mud-bloods", and "snatchers" yet this is only the tip of the iceberg. There are so many other magical terms including at least 110 different spells used in the series. This language being fictional was obviously not included in the lexicon, and thus wasn't included in the analysis, but many of them have clear negative or positive connotations. A great example of this are the unforgivable curses which is best explained by this scene: 
 
+```{r,eval=knitr::is_html_output(excludes = "epub"), results = 'asis', echo = F}
+#| fig.cap: Video
+#| out.width: 80%
+#| fig.align: center
 
-## Links 
+cat("<p style='text-align:center;'> 'The Three Unforgivable Curses' </p>")  #Caption
 
-You can include [links](https://www.datadreaming.org/post/r-markdown-theme-gallery/) using Markdown syntax as shown. 
-
-You should include links to relevant sites as you write. You should additionally include a list of references as the end of your blog with full citations (and relevant links).
-
-
-## Visualizations 
-
-Visualizations, particularly interactive ones, will be well-received. That said, do not overuse visualizations. You may be better off with one complicated but well-crafted visualization as opposed to many quick-and-dirty plots. Any plots should be well-thought-out, properly labeled, informative, and visually appealing.
-
-If you want to include dynamic visualizations or tables, you should explore your options from packages that are built from [**htmlwidgets**](https://www.htmlwidgets.org/showcase_leaflet.html). These **htmlwidgets**-based packages offer ways to build lighterweight, dynamic visualizations or tables that don't require an R server to run! A more complete list of packages is available on the linked website, but a short list includes:
-
-* [**plotly**](https://plot.ly/r/): Interactive graphics with D3
-* [**leaflet**](https://rstudio.github.io/leaflet/): Interactive maps with OpenStreetMap
-* [**dygraphs**](http://rstudio.github.io/dygraphs): Interactive time series visualization
-* [**visNetwork**](http://dataknowledge.github.io/visNetwork): Network graph visualization vis.js
-* [**sparkline**](https://github.com/htmlwidgets/sparkline): Small inline charts
-* [**threejs**](https://github.com/bwlewis/rthreejs): Interactive 3D graphics
-    
-You may embed a published Shiny app in your blog if useful, but be aware that there is a limited window size for embedded objects, which tends to makes the user experience of the app worse relative to a dedicated Shiny app page. Additionally, Shiny apps will go idle after a few minutes and have to be reloaded by the user, which may also affect the user experience. 
-
-Any Shiny apps embedded in your blog should be accompanied by the link to the published Shiny app (I did this using a figure caption in the code chunk below, but you don't have to incorporate the link in this way).
-
-```{r}
-#| label: ds-salaries-app
-#| out.width: "100%"
-
-knitr::include_app("https://bebailey.shinyapps.io/data-science-salaries",
-                   height = "500px")
+cat(
+'<iframe width="560" height="315" 
+  src="https://www.youtube.com/embed/dbV3qODiBGc"
+  frameborder="0" allow="accelerometer; autoplay; encrypted-media;
+  gyroscope; picture-in-picture" allowfullscreen>
+  </iframe>'
+)
 ```
 
+## The AFINN Lexicon
 
-## Tables
-
-### **DT** package
-
-The [**DT** package](https://rstudio.github.io/DT/) is great for making dynamic tables that can be displayed, searched, and filtered by the user without needing an R server or Shiny app!
-
-Note: you should load any packages you use in the `setup` code chunk as usual. The `library()` functions are shown below just for demonstration.
-
+While we did discuss a couple of limitations the arised from using the AFINN lexicon it is still an amazing tool for a binary analysis of the Harry Potter Series. I've created a datatable below that you can interact with to take a look into how exactly the lexicon works and how my sentiment analysis was done. It may even be interesting to review some of the earlier scenes and see if words you view as negative or positive have a rating in the lexicon. 
 ```{r}
 ##| label: dt-example
 # #| message: false
 # #| echo: true
 # 
-# library(DT)
-# mtcars |>
-#   select(mpg, cyl, hp) |>
-#   datatable(colnames = c("MPG", "Number of cylinders", "Horsepower"),
+#
+# sentiment_data |>
+#   DT::datatable(colnames = c("Word", "Assigned Value"),
 #             filter = 'top',
 #             options = list(pageLength = 10, autoWidth = TRUE))
 ```
 
-### **kableExtra** package
 
-You can also use [**kableExtra**](https://cran.r-project.org/web/packages/kableExtra/vignettes/awesome_table_in_html.html) for customizing HTML tables.
-
-```{r}
-#| label: kable-example
-#| echo: true
-#| message: false
-
-library(kableExtra)
-summary(cars) |>
-  kbl(col.names = c("Speed", "Distance"), row.names = FALSE) |>
-  kable_styling(bootstrap_options = "striped", full_width = FALSE) |>
-  row_spec(0, bold = TRUE) |>
-  column_spec(1:2, width = "1.5in") 
-```
-
-
-## Images
-
-Images and gifs can be displayed using code chunks:
-
+# JOHN'S SECTION
 ```{r}
 #| fig.cap: '"Safe Space" by artist Kenesha Sneed'
 #| out.width: 80%
@@ -143,159 +235,6 @@ Images and gifs can be displayed using code chunks:
 
 knitr::include_graphics("characteranimation.gif")
 ```
-
-
-```{r}
-#| fig.cap: "This is a figure caption"
-#| out.width: 50%
-#| fig.align: center
-knitr::include_graphics("https://media.giphy.com/media/H7ZrrA9V2pd3Tehdds/giphy.gif")
-```
-
-You may also use Markdown syntax for displaying images as shown below, but code chunks offer easier customization of the image size and alignment.
-
-![This is another figure caption](https://media.giphy.com/media/8i5IvxP9ZLgmjXN1BF/giphy.gif)
-
-Either way, the file path can be a local path within your project directory or a URL for an image hosted online. This syntax works for PNG, PDF, JPG, and even GIF formats.
-
-
-## Equations
-
-You might include equations if part of the purpose of your blog is to explain a statistical method. There are two ways to include equations:
-
-* Inline: $b \sim N(0, \sigma^2_b)$
-* Display-style (displayed on its own line): 
-$$\frac{\sigma^2_b}{\sigma^2_b + \sigma^2_e}$$
-
-For typesetting equations appropriately, check out the [AMS-LaTeX quick reference](https://github.com/manuelemacchia/math-latex/blob/master/amsmath.pdf) or take a look at the *Symbols in math mode* section of this  [cheat sheet](https://users.dickinson.edu/~richesod/latex/latexcheatsheet.pdf)  (or do some extra Googling---there are *many* resources).
-
-
-
-# Formatting
-
-## Tabbed subsections {.tabset}
-
-Each subsection below the "Tabbed subsections" section heading will appear in a tab. See R Markdown Cookbook [Section 7.6: Put content in tabs](https://bookdown.org/yihui/rmarkdown-cookbook/html-tabs.html) for additional customization options. 
-
-### Bulleted list
-
-You can make a bulleted list like this:
-
-* item 1
-* item 2
-* item 3
-
-
-### Numbered list
-
-
-You can make a numbered list like this
-
-1. First thing I want to say
-2. Second thing I want to say
-3. Third thing I want to say
-
-
-
-## Column formatting
-
-<!-- Begin columns environment -->
-:::::: {style="display: flex; font-size: large;"}
-
-<!-- Create a column -->
-::: {}
-### Content Column 1
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse vel ipsum eu sem facilisis porttitor. Integer eu tristique lectus. Vestibulum nisi risus, porta sit amet cursus nec, auctor ac tellus. Integer egestas viverra rhoncus. Fusce id sem non ante vestibulum posuere ac sed lorem. Proin id felis a mi pellentesque viverra in at nulla. Duis augue nulla, aliquet ac ligula a, sagittis varius lorem.
-
-
-
-:::
-
-<!-- Create another column (this one is just adding horizontal space to separate content) -->
-::: {}
-<div class="horizontalgap" style="width:60px"></div>
-:::
-
-<!-- Create another column -->
-::: {}
-
-### Content Column 2
-
-Aliquam non ante et erat luctus hendrerit eu ac justo. Fusce lacinia pulvinar neque non laoreet. Fusce vitae mauris pharetra, scelerisque purus eget, pharetra nisl. Aenean volutpat elementum tortor vitae rhoncus. Phasellus nec tellus euismod neque congue imperdiet tincidunt in mauris. Morbi eu lorem molestie, hendrerit lorem nec, semper massa. Sed vulputate hendrerit ex, eget cursus purus. Pellentesque consequat erat leo, eleifend porttitor lacus porta at. Vivamus faucibus quam ipsum, id condimentum ligula malesuada ultrices. Nullam luctus leo elit, vitae rutrum nibh venenatis eget. Nam at sodales purus. Proin nulla tellus, lacinia eget pretium sed, vehicula aliquet neque. Morbi vel eros elementum, suscipit elit eu, consequat libero. Nulla nec aliquet neque. Nunc bibendum sapien lectus, sed elementum nisi rutrum non. Ut vulputate at lacus eget maximus.
-
-```{r}
-#| out.width: 80%
-#| fig.align: right
-mtcars |>
-  ggplot(aes(x = wt, y = mpg)) +
-  geom_point()
-```
-
-:::
-::::::
-<!-- End columns environment with matching length indicator-->
-
-
-
-
-# Customizing your blog design
-
-
-As a *final* detail **only** if you have time, you can explore options for customizing the style of your blog. By default, we are using the `cosmo` theme from Bootswatch themes (see Line 7 of this file if you want to switch out themes). 
-
-
-## Theme
-
-There are 25 Bootswatch themes included with Quarto. You can change the theme easily by specifying one of these themes on Line 7: 
-
-- default  
-- cerulean  
-- cosmo  
-- cyborg  
-- darkly  
-- flatly  
-- journal  
-- litera  
-- lumen  
-- lux  
-- materia  
-- minty  
-- morph  
-- pulse  
-- quartz  
-- sandstone  
-- simplex  
-- sketchy  
-- slate  
-- solar  
-- spacelab  
-- superhero  
-- united  
-- vapor  
-- yeti  
-- zephyr
-
-There are, I'm sure, many more similar packages with built in themes, or you can look into how to include a CSS code chunk to customize aspects of a theme.  
-
-## Synax highlighting
-
-You can also change the code chunk syntax highlighting option (Line 7, `highlight`): 
-
-* `"default"`
-* `"tango"`
-* `"pygments"`
-* `"kate"`
-* `"monochrome"`
-* `"espresso"`
-* `"zenburn"`
-* `"haddock"`
-* `"textmate"` 
-* `NULL` for no syntax highlighting (not recommended)
-
-## Font size, type, and other customization
-
-Further customization requires adding a CSS style file or code chunk or incorporating other development options. Further customization should be your lowest and final priority for the project. Ensure your content is fully prepared first.
 
 
 # References
@@ -331,9 +270,3 @@ Shah, Syed A. A. (October 2022), "Starbucks Drinks" (Version 1), *Kaggle*, avail
 
 <!-- R package -->
 Xie Y, Cheng J, Tan X (2022). "DT: A Wrapper of the JavaScript Library 'DataTables'," R package version 0.24, available at <https://CRAN.R-project.org/package=DT>.
-  
-
-
- 
-
-
