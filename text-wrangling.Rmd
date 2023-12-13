@@ -23,6 +23,8 @@ gap <- gapminder
 #CHARACTER MENTIONS
 
 books <- read_csv("data/harry_potter_books.csv")
+
+# the 70 most appearing characters in the series
 characters <- c("regulus", "sirius", "lavender", "cho", "crabbe", "crouch", 
                 "fleur", "cedric", "aberforth", "dumbledore", "dudley", "petunia",
                 "vernon", "filch", "seamus", "pomfrey", "fudge", "goyle", "hermione", 
@@ -38,6 +40,7 @@ characters <- c("regulus", "sirius", "lavender", "cho", "crabbe", "crouch",
 books_all_words <- books |>
   unnest_tokens(output = word, input = text)
 
+# split apart by word, and filter only words that are desired characters
 character_name_locations <- books_all_words |>
   mutate(proportion = row_number() / nrow(books_all_words)) |>
   filter(word %in% characters)
@@ -51,6 +54,7 @@ names_by_chapter <- character_name_locations |>
          chapter_num = as.numeric(gsub(".*?([0-9]+).*", "\\1", chapter))) |>
   arrange(book, chapter)
 
+#split apart the characters by book to add the order variable
 for (i in 1:7){
   name <- paste0("book", i)
   assign(name, transpose(names_by_chapter |> filter(book_num == i)))
@@ -91,24 +95,42 @@ book7 <- as.data.frame(book7) |>
   mutate(chapter_num = as.numeric(chapter_num)) |>
   arrange(chapter_num)
 
+# put them back together, in order so that order is maintained
 names_by_chapter <- bind_rows(book1, book2, book3, book4, book5, book6, book7) |>
   mutate(order = row_number())
 
+# make the NAs compatible with the other values
 names_by_chapter[is.na(names_by_chapter)] <- 0
 
+# create table that is compatible with bar charts, with order being what the 
+# animation will iterate through
 names_for_plotting <- names_by_chapter |>
   select(-chapter, -book, -chapter_num, -book_num) |>
   pivot_longer(!order, names_to = "character", values_to = "count") |>
-  mutate(count = as.numeric(count)) |>
-  filter(order <= 200)
+  mutate(count = as.numeric(count))
 
+# create other data table relating the order in the `names_for_plotting` table to 
+# the chapter and book numbers
 order_numbers <- names_by_chapter |>
   select(order, book_num, chapter_num) |>
   mutate(text = paste0("Book ", book_num, " Chapter ", chapter_num))
 
-write_rds(order_numbers, file = "order_numbers.rds")
+write_rds(order_numbers, file = "data/order_numbers.rds")
 
-write_rds(names_for_plotting, file = "names_for_plotting.rds")
+write_rds(names_for_plotting, file = "data/names_for_plotting.rds")
+
+# create table for visualizing the eight most common names
+name_counts <- names_for_plotting |>
+  select(-order) |>
+  group_by(character) |>
+  summarise(
+    count = sum(count)
+  ) |>
+  arrange(desc(count)) |>
+  mutate(character = str_to_title(character)) |>
+  head(8)
+
+write_rds(name_counts, file = "data/name_counts.rds")
 
 ```
 

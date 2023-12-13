@@ -54,14 +54,17 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#extreme-chapters" id="toc-extreme-chapters" class="nav-link" data-scroll-target="#extreme-chapters">Extreme Chapters</a></li>
   <li><a href="#movie-by-movie-analysis" id="toc-movie-by-movie-analysis" class="nav-link" data-scroll-target="#movie-by-movie-analysis">Movie by Movie Analysis</a></li>
   <li><a href="#additional-limitations" id="toc-additional-limitations" class="nav-link" data-scroll-target="#additional-limitations">Additional Limitations</a></li>
-  <li><a href="#the-afinn-lexicon" id="toc-the-afinn-lexicon" class="nav-link" data-scroll-target="#the-afinn-lexicon">The AFINN Lexicon</a></li>
   </ul></li>
-  <li><a href="#johns-section" id="toc-johns-section" class="nav-link" data-scroll-target="#johns-section">JOHN’S SECTION</a></li>
+  <li><a href="#character-mention-frequency" id="toc-character-mention-frequency" class="nav-link" data-scroll-target="#character-mention-frequency">Character Mention Frequency</a>
+  <ul class="collapse">
+  <li><a href="#over-the-entire-series" id="toc-over-the-entire-series" class="nav-link" data-scroll-target="#over-the-entire-series">Over the Entire Series</a></li>
+  <li><a href="#over-each-chapter" id="toc-over-each-chapter" class="nav-link" data-scroll-target="#over-each-chapter">Over Each Chapter</a></li>
+  </ul></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a>
   <ul class="collapse">
-  <li><a href="#datasets" id="toc-datasets" class="nav-link" data-scroll-target="#datasets">Datasets:</a></li>
-  <li><a href="#r-packages" id="toc-r-packages" class="nav-link" data-scroll-target="#r-packages">R Packages:</a></li>
-  <li><a href="#videos" id="toc-videos" class="nav-link" data-scroll-target="#videos">Videos:</a></li>
+  <li><a href="#datasets" id="toc-datasets" class="nav-link" data-scroll-target="#datasets">Datasets</a></li>
+  <li><a href="#r-packages" id="toc-r-packages" class="nav-link" data-scroll-target="#r-packages">R Packages</a></li>
+  <li><a href="#videos" id="toc-videos" class="nav-link" data-scroll-target="#videos">Videos</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -108,14 +111,14 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 </div>
-<p>It is no secret that the Harry Potter book and movie franchise is vastly beloved: its world building and character development lauded as some of the best for children and young adults. The books are split into seven installments: “Harry Potter and the Philosopher’s Stone,” “Harry Potter and the Half Blood Prince,” “Harry Potter and the Prisoner of Azkaban,” “Harry Potter and the Goblet of Fire,” “Harry Potter and the Order of the Phoenix,” “Harry Potter and the Half-Blood Prince,” and “Harry Potter and the Deathly Hallows.” The movies are divided similarly, only having two parts to “Harry Potter and the Deathly Hallows” instead of one. Seeking to see trends in character mention frequency and sentiment in the books and movies respectively, we created two visualizations.</p>
+<p>It is no secret that the Harry Potter books and movie franchise are vastly beloved: its world building and character development lauded as some of the best for children and young adults. The books are split into seven installments: “Harry Potter and the Philosopher’s Stone,” “Harry Potter and the Half Blood Prince,” “Harry Potter and the Prisoner of Azkaban,” “Harry Potter and the Goblet of Fire,” “Harry Potter and the Order of the Phoenix,” “Harry Potter and the Half-Blood Prince,” and “Harry Potter and the Deathly Hallows.” The movies are divided similarly, only having two parts to “Harry Potter and the Deathly Hallows” instead of one. Seeking to see trends in character mention frequency and sentiment in the books and movies respectively, we created two visualizations.</p>
 </section>
 <section id="sentiment-analysis" class="level1">
 <h1>Sentiment Analysis</h1>
-<p>The Harry Potter series is often thought of first as a fantasy story, but under that cover, it is a rich coming-of-age story. As the movies progress, and we follow the life of a once young Harry, we also go through with him on many of his firsts. His first birthday cake, first day at Hogwarts, first friends and loves, and the quintessential first battle with a dark wizard that every average teenager goes through. The point is that the Harry Potter series is one that is full of so many emotions, which is ultimately what inspired this project. I will take you through a sentiment analysis of the many movies and discuss how using data allows you to analyze them in a way you likely haven’t before.</p>
+<p>The Harry Potter series is often first thought of as a fantasy, but under that cover, it is a rich coming-of-age story. As the movies progress, and we follow the life of a once young Harry, we also go through with him on many of his firsts. His first birthday cake, first day at Hogwarts, first friends and loves, and the quintessential first battle with a dark wizard that every average teenager goes through. The point is that the Harry Potter series is one that is full of so many emotions, which is ultimately what inspired this project. We will take you through a sentiment analysis of the many movies and discuss how using data allows you to analyze them in a way you likely haven’t before.</p>
 <section id="chapter-by-chapter-analysis" class="level2">
 <h2 class="anchored" data-anchor-id="chapter-by-chapter-analysis">Chapter by Chapter Analysis</h2>
-<p>Before we begin there are a there is something really important I should explain: what exactly is a sentiment analysis? In simple terms it is the process of analyzing a text to determine the emotional tone of its message. In this case I relied on the <a href="http://arxiv.org/abs/1103.2903">AFINN lexicon</a> that assigns a variety of words a score running between -5 and +5, with negative scores indicating negative sentiment and positive scores indicating positive sentiment. For each of the movies I found all words that had a matching rating in the lexicon. From there I calculated the average rating of each chapter which is displayed in the interactive graph below. You will ll see that you have the ability to select which movies you would like displayed as well as a hovering tool that allows you to look at various points on the graph and see specific details about the chapter.</p>
+<p>Before we begin there are a there is something important we should explain: what exactly is a sentiment analysis? In simple terms it is the process of analyzing a text to determine the emotional tone of its message. In this case we relied on the <a href="http://arxiv.org/abs/1103.2903">AFINN lexicon</a> that assigns a variety of words a score running between -5 and +5, with negative scores indicating negative sentiment and positive scores indicating positive sentiment. For each of the movies we found all words that had a matching rating in the lexicon. From there we calculated the average rating of each chapter which is displayed in the interactive graph below. You will see that you have the ability to select which movies you would like displayed as well as a hovering tool that allows you to look at various points on the graph and see specific details about the chapter.</p>
 <div class="cell">
 <iframe src="https://sarah-fatihi.shinyapps.io/blog-potterwatch/?showcase=0" width="100%" height="500px" data-external="1">
 </iframe>
@@ -123,7 +126,7 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="extreme-chapters" class="level2">
 <h2 class="anchored" data-anchor-id="extreme-chapters">Extreme Chapters</h2>
-<p>I want to bring your attention to the chapters that were noted as having the greatest and least average sentiment in the entire series. The chapter that was considered most positive is “Getting Too Close” in “Harry Potter and the Deathly Hallows Part 1”. Additionally, the chapter the was considered the most negative is “Writing on the Wall” in “Harry Potter and the Chamber of Secrets”. Now for those of you that are potterheads and are deeply familiar with the movies, this may already raise some red flags for you. Regardless, lets take a look at the chapters:</p>
+<p>We want to bring your attention to the chapters that were noted as having the greatest and least average sentiment in the entire series. The chapter that was considered most positive is “Getting Too Close” in “Harry Potter and the Deathly Hallows Part 1”. Additionally, the chapter the was considered the most negative is “Writing on the Wall” in “Harry Potter and the Chamber of Secrets”. Now for those of you that are potterheads and are deeply familiar with the movies, this may already raise some red flags for you. Regardless, lets take a look at the chapters:</p>
 <div class="cell" data-layout-align="center">
 <p style="text-align:center;">
 ‘Getting Too Close’ - Most Positive Chapter
@@ -133,7 +136,7 @@ ul.task-list li input[type="checkbox"] {
 </iframe>
 </div>
 <p>It doesn’t take an avid Harry Potter fan to sense that ‘Getting Too Close’ probably isn’t the most positive chapter in the entire series. For those that need context: up this point the three characters you see are in hiding, and on a quest to find and destroy the remaining parts of Voldemort’s (a dark wizard that is also Harry’s arch-nemesis) soul in order to save the world. Voldemort is obsessed with wizard blood purity and is the leader of a movement that aims to rid the wizarding world of Muggles (non-magical humans). Under his reign, snatchers arise and their job is to capture and turn in muggle-borns, mudbloods, and blood-traitors. Coincidentally, Harry, Ron, and Hermione are all three. In the chapter you just watched despite Hermoine having set up magical barriers she is still struck by fear of getting caught and killed as a snatcher can smell her perfume. In other words, this is definitely not a positive scene.</p>
-<p>So if the chapter is so clearly negative, why does it show up as being the most positive scene? Well this is a very important limitation that needs to be addressed when analyzing the movies with a lexicon. In movie production there is a common principle of “show don’t tell”. The idea is to simply show the viewers something rather than relying on dialogue or narration to explain it. As a result the dialogue in many chapters we see are quite limited. In this case, only a few lines are considered to be in this dataset for this chapter including: “What’s that? That… smell?”, “Snatchers”, “Good to know your enchantments work”, and “He could smell it. My perfume.” With only 4 lines of dialogue the sentiment analysis becomes extremely limited and, as it turns out, the only word that was in the lexicon was “good” with a rating of 3. It then follows that the average sentiment of the chapter is 3.</p>
+<p>So if the chapter is so clearly negative, why does it show up as being the most positive scene? Well this is a very important limitation that needs to be addressed when analyzing the movies with a lexicon. In movie production there is a common principle of “show don’t tell.” The idea is to simply show the viewers something rather than relying on dialogue or narration to explain it. As a result the dialogue in many chapters we see are quite limited. In this case, only a few lines are considered to be in this dataset for this chapter including: “What’s that? That… smell?”, “Snatchers”, “Good to know your enchantments work”, and “He could smell it. My perfume.” With only 4 lines of dialogue the sentiment analysis becomes extremely limited and, as it turns out, the only word that was in the lexicon was “good” with a rating of 3. It then follows that the average sentiment of the chapter is 3.</p>
 <p>Now that we have this limitation in mind lets take a look at the most negative chapter while paying attention to the dialogue and see why it might have that rating:</p>
 <div class="cell" data-layout-align="center">
 <p style="text-align:center;">
@@ -147,7 +150,7 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="movie-by-movie-analysis" class="level2">
 <h2 class="anchored" data-anchor-id="movie-by-movie-analysis">Movie by Movie Analysis</h2>
-<p>For this reason above, I thought may also be beneficial to take a step back. The visualization below displays the average sentiment for each movie in the series. The data shown was calculated in the same way as the chapter by chapter analysis, just on a broader scale. I find that this visualization matches better with how I, and how I would think most others, picture the Harry Potter series. While this is still far from perfect there are some trends that make more sense. For one, the most negative movie is the final one in which the greatest battle of the series occurs and many beloved characters unfortunately lose their lives. Additionally, the most positive movie is “Harry Potter and the Half Blood Prince” which is the book in which Harry falls in love for the first time. This is quickly followed by the very first movie in which Harry was allowed to leave his abusive household and gets introduced to the world of magic where he finally feels belonging.</p>
+<p>For this reason above, we thought it may also be beneficial to take a step back. The visualization below displays the average sentiment for each movie in the series. The data shown was calculated in the same way as the chapter by chapter analysis, just on a broader scale. We find that this visualization matches better with how we, and how we would think most others, picture the Harry Potter series. While this is still far from perfect there are some trends that make more sense. For one, the most negative movie is the final one in which the greatest battle of the series occurs and many beloved characters unfortunately lose their lives. Additionally, the most positive movie is “Harry Potter and the Half Blood Prince” which is the book in which Harry falls in love for the first time. This is quickly followed by the very first movie in which Harry was allowed to leave his abusive household and gets introduced to the world of magic where he finally feels belonging.</p>
 <div class="cell" data-layout-align="left">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-left">
@@ -160,7 +163,7 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="additional-limitations" class="level2">
 <h2 class="anchored" data-anchor-id="additional-limitations">Additional Limitations</h2>
-<p>An important limitation that also needs to be considered when analyzing a fantasy series is the scope of the lexicon. The author behind the Harry Potter books, that the movies were later based on, created a heavily fictionalized world. It’s a world in which magic exists, currency is gold, and magical creatures from giants to dragons all live. With this new world, however, also comes new language. Throughout this post I’ve introduced some of this language including “muggles”, “mud-bloods”, and “snatchers” yet this is only the tip of the iceberg. There are so many other magical terms including at least 110 different spells used in the series. This language being fictional was obviously not included in the lexicon, and thus wasn’t included in the analysis, but many of them have clear negative or positive connotations. A great example of this are the unforgivable curses which is best explained by this scene:</p>
+<p>An important limitation that also needs to be considered when analyzing a fantasy series is the scope of the lexicon. The author behind the Harry Potter books, that the movies were later based on, created a heavily fictionalized world. It’s a world in which magic exists, currency is gold, and magical creatures from giants to dragons all live. With this new world, however, also comes new language. Throughout this post I’ve introduced some of this language including “muggles”, “mud-bloods”, and “snatchers” yet this is only the tip of the iceberg. There are so many other magical terms including at least 110 different spells used in the series. This language being fictional was obviously not included in the lexicon, and thus wasn’t included in the analysis, but many of them have clear negative or positive connotations. A great example of this are the Unforgivable Curses which is best explained by this scene:</p>
 <div class="cell" data-layout-align="center">
 <p style="text-align:center;">
 ‘The Three Unforgivable Curses’
@@ -170,33 +173,86 @@ ul.task-list li input[type="checkbox"] {
 </iframe>
 </div>
 </section>
-<section id="the-afinn-lexicon" class="level2">
-<h2 class="anchored" data-anchor-id="the-afinn-lexicon">The AFINN Lexicon</h2>
-<p>While we did discuss a couple of limitations the arised from using the <a href="http://arxiv.org/abs/1103.2903">AFINN lexicon</a> it is still an amazing tool for a binary analysis of the Harry Potter Series. I’ve created a datatable below that you can interact with to take a look into how exactly the lexicon works and how my sentiment analysis was done. It may even be interesting to review some of the earlier scenes and see if words you view as negative or positive have a rating in the lexicon.</p>
 </section>
+<section id="character-mention-frequency" class="level1">
+<h1>Character Mention Frequency</h1>
+<p>The other type of analysis we did over the Harry Potter series regards character mentions. We wanted to see not only the most mentioned characters in the book series, but also how those mentions change through the different chapters over time. To do this, we needed a way to pinpoint names of individual characters in the text: a particular challenge when so many characters are sometimes referred to by their last name. For example, many of the members of the Weasley family are simply called “Weasley” in the books, but it is impossible to pick up these mentions without some advanced tool to detect each mention’s context. So, in this scenario, we had to use the characters’ first names. Additionally, there are some characters that go by multiple name, like how “Voldemort” also is referred to as “Tom Riddle” or “He Who Must Not Be Named” in the series. In this case, we picked the most common name for a specific character to search in the text.</p>
+<section id="over-the-entire-series" class="level2">
+<h2 class="anchored" data-anchor-id="over-the-entire-series">Over the Entire Series</h2>
+<p>First, we were curious about the generally most named characters. In a way, this is an objective way to view how “main” a character is. Of course, the importance of a character to a story is often subjective. Rather, the frequency a name appears in a text can give the impression of how important the author intended a character to be (which hopefully aligns with the impression if it’s a good author). Below are the eight most common names appearing in the Harry Potter book series.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Character</th>
+<th style="text-align: right;">Number of Mentions</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Harry</td>
+<td style="text-align: right;">16557</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Ron</td>
+<td style="text-align: right;">5750</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Hermione</td>
+<td style="text-align: right;">4912</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Dumbledore</td>
+<td style="text-align: right;">2873</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Hagrid</td>
+<td style="text-align: right;">1732</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Snape</td>
+<td style="text-align: right;">1532</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Sirius</td>
+<td style="text-align: right;">1002</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Voldemort</td>
+<td style="text-align: right;">980</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>The top three any fan of the series could have predicted: the trio of Harry, Ron, and Hermione is who the series follows most of all, so it makes sense that their names are the most used. A surprising feature of this table was the prevalence of the name “Sirius” in the series, appearing as the seventh most popular name. Considering the fact that he is only alive in three of the books (3, 4, and 5), and is rarely mentioned in the books after he dies, this just shows how much focus was on his character when he was in the story.</p>
 </section>
-<section id="johns-section" class="level1">
-<h1>JOHN’S SECTION</h1>
+<section id="over-each-chapter" class="level2">
+<h2 class="anchored" data-anchor-id="over-each-chapter">Over Each Chapter</h2>
+<p>In addition to the name frequencies of the entire series, we also wanted to look at how these character mentions changed over each chapter. To visualize this, we created an animation that transitioned between a bar chart showing name counts for each chapter. You can see what book and chapter the current bar chart is from in the top left corner.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="characteranimation.gif" class="img-fluid figure-img" style="width:80.0%"></p>
-<figcaption class="figure-caption">“Safe Space” by artist Kenesha Sneed</figcaption>
+<p><img src="characteranimation.gif" class="img-fluid figure-img" style="width:100.0%"></p>
 </figure>
 </div>
 </div>
 </div>
+<p>Again, Harry is front (and center) with his green bar consistently higher than the rest, thanks to Rowling’s general adherence to a third-person limited point of view. Compared with the table, this animation gives a much fuller view of the series, as many other characters are now seen to have a big impact locally (in a few chapters), even if they aren’t mentioned a ton in the scope of the entire series. For example, “Umbridge” is only spoken past the fifth book, but her name pops up a lot when she becomes part of the story. We can also infer things about the books from how often characters are mentioned over time. From the animation, we can see that Voldemort’s name is spoken more and more throughout the book series, both because he becomes more of a threat over time and because other characters become more comfortable saying his true name, rather than “He Who Must Not Be Named” or “You Know Who.”</p>
+</section>
 </section>
 <section id="references" class="level1">
 <h1>References</h1>
 <section id="datasets" class="level2">
-<h2 class="anchored" data-anchor-id="datasets">Datasets:</h2>
+<h2 class="anchored" data-anchor-id="datasets">Datasets</h2>
 <p>Chauvet, L. (2021). hp-dataset. GitHub. <a href="https://github.com/Kornflex28/hp-dataset" class="uri">https://github.com/Kornflex28/hp-dataset</a></p>
 <p>Finn Årup Nielsen A new ANEW: Evaluation of a word list for sentiment analysis in microblogs. Proceedings of the ESWC2011 Workshop on ‘Making Sense of Microposts’: Big things come in small packages 718 in CEUR Workshop Proceedings 93-98. 2011 May. <a href="http://arxiv.org/abs/1103.2903" class="uri">http://arxiv.org/abs/1103.2903</a>.</p>
+<p>Sanchez, Gaston (2023). harry_potter_books.csv. Github. <a href="https://github.com/gastonstat/harry-potter-data/tree/main/csv-data-file" class="uri">https://github.com/gastonstat/harry-potter-data/tree/main/csv-data-file</a></p>
 </section>
 <section id="r-packages" class="level2">
-<h2 class="anchored" data-anchor-id="r-packages">R Packages:</h2>
+<h2 class="anchored" data-anchor-id="r-packages">R Packages</h2>
 <p>C. Sievert. Interactive Web-Based Data Visualization with R, plotly, and shiny. Chapman and Hall/CRC Florida, 2020.</p>
 <p>Silge, J., &amp; Robinson, D. (2016). Tidytext: Text mining and analysis using tidy data principles in R. Journal of Open Source Software, 1(3), 37, available at <a href="https://doi.org/10.21105/joss.00037" class="uri">https://doi.org/10.21105/joss.00037</a></p>
 <p>Wickham H, François R, Henry L, Müller K, Vaughan D (2023). “dplyr: A Grammar of Data Manipulation,” R package version 1.1.3, available at <a href="https://CRAN.R-project.org/package=dplyr" class="uri">https://CRAN.R-project.org/package=dplyr</a>.</p>
@@ -206,7 +262,7 @@ ul.task-list li input[type="checkbox"] {
 <p>Xie Y (2023). “knitr: A General-Purpose Package for Dynamic Report Generation in R,” R package version 1.45, available at <a href="https://yihui.org/knitr/" class="uri">https://yihui.org/knitr/</a>.</p>
 </section>
 <section id="videos" class="level2">
-<h2 class="anchored" data-anchor-id="videos">Videos:</h2>
+<h2 class="anchored" data-anchor-id="videos">Videos</h2>
 <p>DutchHPfan1992. (2013, January 21). Harry Potter and the Deathly Hallows part 1 - Hermione and the Snatchers in the forrest (HD) [Video file]. YouTube. <a href="https://www.youtube.com/watch?v=LDcz02lEfi4" class="uri">https://www.youtube.com/watch?v=LDcz02lEfi4</a></p>
 <p>Matheusor1. (2008, June 29). Harry Potter- “The chamber of secrets has been opened” scene [Video file]. YouTube. <a href="https://www.youtube.com/watch?v=bjNHWwelxN4" class="uri">https://www.youtube.com/watch?v=bjNHWwelxN4</a></p>
 <p>Potter, Harry. (2017, August 17). The Three Unforgivable Curses | Harry Potter and the Goblet of Fire [Video file]. YouTube. <a href="https://www.youtube.com/watch?v=dbV3qODiBGc" class="uri">https://www.youtube.com/watch?v=dbV3qODiBGc</a></p>
